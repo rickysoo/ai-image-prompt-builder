@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Prompting Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">
+                    <i class="fas fa-magic"></i>
+                    AI Prompting Guide
+                </h1>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Image Styles</h3>
+                <ul class="nav-list">
+                    <li><a href="#" data-content="realistic" class="nav-link active"><i class="fas fa-mountain"></i> Realistic</a></li>
+                    <li><a href="#" data-content="photographic" class="nav-link"><i class="fas fa-camera"></i> Photographic</a></li>
+                    <li><a href="#" data-content="painterly" class="nav-link"><i class="fas fa-paint-brush"></i> Painterly</a></li>
+                    <li><a href="#" data-content="sketch" class="nav-link"><i class="fas fa-pencil-alt"></i> Sketch</a></li>
+                    <li><a href="#" data-content="cartoon" class="nav-link"><i class="fas fa-smile"></i> Cartoon</a></li>
+                    <li><a href="#" data-content="surreal" class="nav-link"><i class="fas fa-cloud"></i> Surreal</a></li>
+                    <li><a href="#" data-content="pixar" class="nav-link"><i class="fas fa-cube"></i> Pixar 3D</a></li>
+                    <li><a href="#" data-content="concept" class="nav-link"><i class="fas fa-rocket"></i> Concept Art</a></li>
+                    <li><a href="#" data-content="minimalist" class="nav-link"><i class="fas fa-minus"></i> Minimalist</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Learning</h3>
+                <ul class="nav-list">
+                    <li><a href="#" data-content="general-tips" class="nav-link"><i class="fas fa-lightbulb"></i> General Tips</a></li>
+                    <li><a href="#" data-content="pro-tips" class="nav-link"><i class="fas fa-graduation-cap"></i> Pro Tips</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <div class="content-header">
+                <h2 id="content-title">Realistic Style</h2>
+                <p class="content-subtitle">Lifelike rendering with natural lighting and details</p>
+            </div>
+
+            <!-- Style Content Sections -->
+            <div class="content-section active" id="realistic-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Realistic style sample" class="sample-image" id="realistic-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="realistic">A majestic snow-capped mountain range with dramatic peaks piercing through low-hanging clouds, golden hour lighting, ultra-realistic photography, sharp details, 8K resolution, professional landscape photography</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('realistic')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="photographic-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Photographic style sample" class="sample-image" id="photographic-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="photographic">Professional portrait of a confident young woman with short blonde hair, soft natural lighting, shot with Canon EOS R5, 85mm lens, shallow depth of field, photographic style, studio lighting, clean background</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('photographic')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="painterly-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Painterly style sample" class="sample-image" id="painterly-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="painterly">Still life painting of golden pears and white ceramics on a cloth-covered table, warm natural lighting, oil painting style, visible brushstrokes, rich textures, classical composition, fine art painting</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('painterly')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="sketch-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Sketch style sample" class="sample-image" id="sketch-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="sketch">Line art drawing of a modern city skyline, minimalist sketch style, clean black lines on white background, architectural illustration, hand-drawn aesthetic, simple outlines, urban landscape sketch</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('sketch')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="cartoon-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Cartoon style sample" class="sample-image" id="cartoon-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="cartoon">Cute cartoon character with big expressive eyes and blue hair, floating in a magical underwater scene, Disney Pixar style, vibrant colors, 3D animation style, cheerful expression, whimsical atmosphere</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('cartoon')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="surreal-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Surreal style sample" class="sample-image" id="surreal-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="surreal">Surreal dreamscape with floating geometric shapes and a vintage suitcase drifting through cloudy blue sky, ethereal atmosphere, fantasy art style, dreamy composition, soft lighting, magical realism</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('surreal')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="pixar-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Pixar style sample" class="sample-image" id="pixar-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="pixar">Pixar-style 3D rendered young woman with blonde hair in a cozy room setting, soft lighting, warm colors, character-driven composition, 3D animation style, friendly expression, detailed textures</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('pixar')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="concept-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Concept art style sample" class="sample-image" id="concept-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="concept">Futuristic concept art of a sleek hover car floating above a city street, digital concept art style, rough visualization, matte painting technique, atmospheric perspective, concept design for sci-fi film</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('concept')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="minimalist-content">
+                <div class="style-showcase">
+                    <div class="image-container">
+                        <img src="" alt="Minimalist style sample" class="sample-image" id="minimalist-image">
+                        <div class="image-overlay">
+                            <div class="loading-spinner" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prompt-section">
+                        <div class="prompt-container">
+                            <p class="prompt-label">Editable Prompt:</p>
+                            <textarea class="prompt-input" data-style="minimalist">Minimalist flat design illustration of "Project Zenith" with clean typography, simple geometric shapes, modern UI design, flat design style, clean white background, professional layout, streamlined workflow concept</textarea>
+                            <div class="button-group">
+                                <button class="generate-btn" onclick="generateImage('minimalist')">
+                                    <i class="fas fa-magic"></i> Generate Image
+                                </button>
+                                <button class="copy-btn" onclick="copyPrompt(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Tips Section -->
+            <div class="content-section" id="general-tips-content">
+                <div class="tips-showcase">
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4><i class="fas fa-target"></i> Be Specific</h4>
+                            <p>Use detailed descriptions rather than vague terms.</p>
+                            <div class="example">
+                                <span class="good">✓ "Bright crimson Ferrari 458 Italia"</span>
+                                <span class="bad">✗ "Red sports car"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <h4><i class="fas fa-map-marker-alt"></i> Describe the Scene</h4>
+                            <p>Include setting, time of day, weather, and atmosphere.</p>
+                            <div class="example">
+                                <span class="good">✓ "Rainy evening in Tokyo streets with neon reflections"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <h4><i class="fas fa-palette"></i> Use Art Keywords</h4>
+                            <p>Add style descriptors to guide the AI.</p>
+                            <div class="example">
+                                <span class="keyword">"digital art", "oil painting", "photograph", "pencil sketch"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <h4><i class="fas fa-star"></i> Quality Modifiers</h4>
+                            <p>Include quality terms for better results.</p>
+                            <div class="example">
+                                <span class="keyword">"high quality", "detailed", "4K", "ultra-realistic"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pro Tips Section -->
+            <div class="content-section" id="pro-tips-content">
+                <div class="tips-showcase">
+                    <div class="tips-grid pro-grid">
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-camera"></i> Camera Technical Details</h4>
+                            <p>For photorealistic results, include camera specifications.</p>
+                            <div class="example">
+                                <span class="keyword">"shot with Canon EOS R5, 85mm lens, f/1.4, shallow depth of field, professional lighting"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-sun"></i> Lighting Terminology</h4>
+                            <p>Master lighting keywords for dramatic effects.</p>
+                            <div class="example">
+                                <span class="keyword">"Golden hour", "rim lighting", "soft box", "dramatic shadows", "volumetric lighting"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-crop"></i> Composition Rules</h4>
+                            <p>Apply photography composition principles.</p>
+                            <div class="example">
+                                <span class="keyword">"Rule of thirds", "leading lines", "symmetrical composition", "close-up portrait"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-user-edit"></i> Artist References</h4>
+                            <p>Reference specific artists and styles.</p>
+                            <div class="example">
+                                <span class="keyword">"In the style of Van Gogh", "Pixar animation", "Studio Ghibli", "Renaissance painting"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-times-circle"></i> Negative Prompts</h4>
+                            <p>Specify what you don't want in the image.</p>
+                            <div class="example">
+                                <span class="bad">"--no blurry, low quality, distorted, extra limbs, text, watermarks"</span>
+                            </div>
+                        </div>
+                        <div class="tip-card pro-tip">
+                            <h4><i class="fas fa-fill-drip"></i> Color Theory</h4>
+                            <p>Control mood and atmosphere with color.</p>
+                            <div class="example">
+                                <span class="keyword">"Monochromatic blue palette", "warm autumn colors", "high contrast", "pastel tones"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

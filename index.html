@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Prompt Builder | Create Perfect Prompts for AI Art Generation</title>
+    <meta name="description" content="Build professional AI image prompts with our interactive drag-and-drop tool. Craft perfect prompts for DALL-E, Midjourney, Stable Diffusion & more. Free AI prompt generator with GPT-4 enhancement.">
+    <meta name="keywords" content="AI image prompt builder, AI art generator, DALL-E prompts, Midjourney prompts, Stable Diffusion prompts, AI prompt generator, image prompt tool">
+    <meta name="author" content="AI Image Prompt Builder">
+    <meta name="theme-color" content="#1e3c72">
+    <link rel="manifest" href="manifest.json">
+    <meta property="og:title" content="AI Image Prompt Builder | Create Perfect AI Art Prompts">
+    <meta property="og:description" content="Interactive tool to build professional AI image prompts. Drag, drop, and craft perfect prompts for AI art generation with GPT-4 enhancement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yoursite.com">
+    <meta property="og:image" content="https://yoursite.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Image Prompt Builder">
+    <meta name="twitter:description" content="Create perfect AI image prompts with our interactive tool. Free prompt generator for DALL-E, Midjourney & more.">
+    <link rel="icon" type="image/svg+xml" href="icon-192.svg">
+    <link rel="icon" type="image/svg+xml" sizes="512x512" href="icon-512.svg">
+    <link rel="apple-touch-icon" href="icon-192.svg">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MBD8RK69P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1MBD8RK69P', {
+        cookie_flags: 'SameSite=None;Secure',
+        send_page_view: true
+      });
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 2;
+            padding: 0.75rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .components-area {
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .components-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-areas: 
+                "subjects actions"
+                "styles lighting"
+                "technical technical";
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .component-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .subjects-section {
+            grid-area: subjects;
+            transform: rotate(-1deg);
+        }
+
+        .styles-section {
+            grid-area: styles;
+            transform: rotate(2deg);
+        }
+
+        .lighting-section {
+            grid-area: lighting;
+            transform: rotate(1deg);
+        }
+
+        .actions-section {
+            grid-area: actions;
+            transform: rotate(-0.5deg);
+        }
+
+        .technical-section {
+            grid-area: technical;
+            transform: rotate(-0.5deg);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 0.75rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+        }
+
+        .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .component-item {
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: fit-content;
+            white-space: nowrap;
+        }
+
+        .component-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .component-item:hover::before {
+            opacity: 1;
+        }
+
+        .component-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .component-item:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .component-item[data-category="subject"] {
+            background: linear-gradient(135deg, #10b981, #059669, #047857);
+        }
+
+        .component-item[data-category="style"] {
+            background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+        }
+
+        .component-item[data-category="lighting"] {
+            background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);
+        }
+
+        .component-item[data-category="actions"] {
+            background: linear-gradient(135deg, #06b6d4, #0891b2, #0e7490);
+        }
+
+        .component-item[data-category="technical"] {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9);
+        }
+
+
+        .workspace {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 22px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .buttons-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            min-width: 140px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .make-image-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 3px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .make-image-btn:hover {
+            box-shadow: 0 5px 16px rgba(139, 92, 246, 0.4);
+        }
+
+        .clear-all-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 3px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .clear-all-btn:hover {
+            box-shadow: 0 5px 16px rgba(239, 68, 68, 0.4);
+        }
+
+        .drop-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .prompt-area {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .drop-zone {
+            min-height: 130px;
+            border: 3px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            position: relative;
+            flex: 1;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            box-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
+            transform: scale(1.02);
+        }
+
+        .drop-zone.empty::before {
+            content: "🎯 Drop or Click Components Here! 🎯";
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .prompt-component {
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-10deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.15) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .prompt-component[data-category="subject"] {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .prompt-component[data-category="style"] {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .prompt-component[data-category="lighting"] {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .prompt-component[data-category="technical"] {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .remove-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.2);
+        }
+
+        .prompt-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            padding: 1.2rem;
+            height: 130px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.4;
+            box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            margin-bottom: 0.75rem;
+        }
+
+        .prompt-display.empty {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .prompt-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
+            flex-shrink: 0;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+            font-weight: 600;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4);
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 0.25rem;
+            }
+
+            .title {
+                font-size: 1.3rem;
+            }
+
+            .components-grid {
+                grid-template-areas: 
+                    "subjects"
+                    "styles"
+                    "lighting"
+                    "technical";
+                gap: 0.5rem;
+            }
+
+            .component-section {
+                transform: none !important;
+                padding: 0.5rem;
+            }
+
+            .component-item {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .workspace {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            
+            .buttons-area {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                min-width: auto;
+            }
+            
+            .action-button {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+                min-width: 0;
+                flex: 1;
+            }
+
+            .drop-zone {
+                min-height: 100px;
+                padding: 0.75rem;
+            }
+
+            .prompt-display {
+                height: 100px;
+            }
+
+            .drop-zone.empty::before {
+                font-size: 0.9rem;
+            }
+
+            .notification {
+                left: 10px;
+                right: 10px;
+                transform: translateY(-100%);
+            }
+
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .component-item {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .component-list {
+                gap: 0.3rem;
+            }
+
+            .drop-zone {
+                min-height: 80px;
+                padding: 0.5rem;
+            }
+
+            .prompt-display {
+                padding: 0.75rem;
+                font-size: 0.8rem;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Build Your Image Prompt</h1>
+            <p class="subtitle">Drag, drop, and craft the perfect AI image prompt with precision</p>
+        </div>
+
+        <!-- Components Area -->
+        <div class="components-area">
+            <!-- Components Grid -->
+            <div class="components-grid">
+                <!-- Subjects Section -->
+                <div class="component-section subjects-section">
+                    <h3 class="section-title">🎭 Subjects</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="subject" data-value="A young woman" draggable="true">
+                            <i class="fas fa-user"></i>
+                            Young woman
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A majestic mountain" draggable="true">
+                            <i class="fas fa-mountain"></i>
+                            Mountain landscape
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A vintage car" draggable="true">
+                            <i class="fas fa-car"></i>
+                            Vintage car
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A cute cat" draggable="true">
+                            <i class="fas fa-cat"></i>
+                            Cute cat
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="Modern architecture" draggable="true">
+                            <i class="fas fa-building"></i>
+                            Modern building
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="component-section actions-section">
+                    <h3 class="section-title">🏃 Actions</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="actions" data-value="jumping gracefully" draggable="true">
+                            <i class="fas fa-running"></i>
+                            Jumping
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="walking confidently" draggable="true">
+                            <i class="fas fa-walking"></i>
+                            Walking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="thinking deeply" draggable="true">
+                            <i class="fas fa-brain"></i>
+                            Thinking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="drinking carefully" draggable="true">
+                            <i class="fas fa-coffee"></i>
+                            Drinking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="running swiftly" draggable="true">
+                            <i class="fas fa-rocket"></i>
+                            Running
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Styles Section -->
+                <div class="component-section styles-section">
+                    <h3 class="section-title">🎨 Styles</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="style" data-value="realistic style" draggable="true">
+                            <i class="fas fa-mountain"></i>
+                            Realistic
+                        </div>
+                        <div class="component-item" data-category="style" data-value="photographic style" draggable="true">
+                            <i class="fas fa-camera"></i>
+                            Photographic
+                        </div>
+                        <div class="component-item" data-category="style" data-value="painterly style" draggable="true">
+                            <i class="fas fa-paint-brush"></i>
+                            Painterly
+                        </div>
+                        <div class="component-item" data-category="style" data-value="sketch style" draggable="true">
+                            <i class="fas fa-pencil-alt"></i>
+                            Sketch
+                        </div>
+                        <div class="component-item" data-category="style" data-value="cartoon style" draggable="true">
+                            <i class="fas fa-smile"></i>
+                            Cartoon
+                        </div>
+                        <div class="component-item" data-category="style" data-value="surreal style" draggable="true">
+                            <i class="fas fa-cloud"></i>
+                            Surreal
+                        </div>
+                        <div class="component-item" data-category="style" data-value="Pixar 3D style" draggable="true">
+                            <i class="fas fa-cube"></i>
+                            Pixar 3D
+                        </div>
+                        <div class="component-item" data-category="style" data-value="concept art style" draggable="true">
+                            <i class="fas fa-rocket"></i>
+                            Concept Art
+                        </div>
+                        <div class="component-item" data-category="style" data-value="minimalist style" draggable="true">
+                            <i class="fas fa-minus"></i>
+                            Minimalist
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lighting Section -->
+                <div class="component-section lighting-section">
+                    <h3 class="section-title">💡 Lighting</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="lighting" data-value="golden hour lighting" draggable="true">
+                            <i class="fas fa-sun"></i>
+                            Golden hour
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="soft studio lighting" draggable="true">
+                            <i class="fas fa-lightbulb"></i>
+                            Studio lighting
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="dramatic shadows" draggable="true">
+                            <i class="fas fa-adjust"></i>
+                            Dramatic shadows
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="natural lighting" draggable="true">
+                            <i class="fas fa-cloud-sun"></i>
+                            Natural lighting
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Section -->
+                <div class="component-section technical-section">
+                    <h3 class="section-title">⚙️ Technical</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="technical" data-value="8K resolution" draggable="true">
+                            <i class="fas fa-expand"></i>
+                            8K resolution
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="ultra-realistic" draggable="true">
+                            <i class="fas fa-eye"></i>
+                            Ultra-realistic
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="professional photography" draggable="true">
+                            <i class="fas fa-camera-retro"></i>
+                            Professional
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="highly detailed" draggable="true">
+                            <i class="fas fa-search-plus"></i>
+                            Highly detailed
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Workspace -->
+        <div class="workspace">
+            <!-- Drop Area -->
+            <div class="drop-area">
+                <div class="drop-zone empty" id="dropZone"></div>
+            </div>
+            
+            <!-- Prompt Area -->
+            <div class="prompt-area">
+                <div class="prompt-display empty" id="promptDisplay">
+                    Your enhanced AI prompt will appear here...
+                </div>
+            </div>
+            
+            <!-- Buttons Area -->
+            <div class="buttons-area">
+                <button id="copyButton" class="action-button">
+                    <i class="fas fa-copy"></i> Copy Prompt
+                </button>
+                <button id="makeImageButton" class="action-button make-image-btn">
+                    <i class="fas fa-image"></i>
+                    <i class="fas fa-external-link-alt" style="font-size: 0.7em; opacity: 0.8;"></i>
+                    Make Image
+                </button>
+                <button id="clearAllButton" class="action-button clear-all-btn">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration - Environment Variable Handling
+        const API_KEY = (() => {
+            // For Vercel and other build-time environments
+            if (typeof process !== 'undefined' && process.env && process.env.OPENAI_API_KEY) {
+                return process.env.OPENAI_API_KEY;
+            }
+            
+            // For local development - you can temporarily set your key here
+            // IMPORTANT: Replace this with your actual API key for testing
+            // For production, use Vercel environment variables
+            return 'your-api-key-here';
+        })();
+        
+        // Note: In production, use environment variables or server-side proxy
+        // Never expose API keys in client-side code
+
+        // Game state
+        let promptComponents = [];
+
+        // DOM Elements (will be set after DOM loads)
+        let dropZone, promptDisplay, copyButton, makeImageButton, clearAllButton;
+
+        // Audio Context for sound effects
+        let audioContext;
+        let soundEnabled = true;
+
+        // Initialize audio context
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log('Web Audio API not supported');
+                soundEnabled = false;
+            }
+        }
+
+        // Play sound for different categories
+        function playSound(category) {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Different frequencies and tones for each category
+            let frequency, waveType, duration;
+            
+            switch(category) {
+                case 'subject':
+                    frequency = 523.25; // C5 - warm, human sound
+                    waveType = 'sine';
+                    duration = 0.15;
+                    break;
+                case 'actions':
+                    frequency = 587.33; // D5 - dynamic, active sound
+                    waveType = 'triangle';
+                    duration = 0.13;
+                    break;
+                case 'style':
+                    frequency = 659.25; // E5 - artistic, creative sound
+                    waveType = 'triangle';
+                    duration = 0.12;
+                    break;
+                case 'lighting':
+                    frequency = 783.99; // G5 - bright, illuminating sound
+                    waveType = 'sawtooth';
+                    duration = 0.1;
+                    break;
+                case 'technical':
+                    frequency = 440.00; // A4 - precise, technical sound
+                    waveType = 'square';
+                    duration = 0.08;
+                    break;
+                default:
+                    frequency = 500;
+                    waveType = 'sine';
+                    duration = 0.1;
+            }
+            
+            oscillator.type = waveType;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            
+            // Smooth volume envelope
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Play success sound when component is added
+        function playSuccessSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            // Play a pleasant chord progression
+            const frequencies = [523.25, 659.25, 783.99]; // C-E-G major chord
+            
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                }, index * 50);
+            });
+        }
+
+        // Play clear sound for clearing components
+        function playClearSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.3);
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        // Google Analytics Event Tracking
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, parameters);
+                console.log('GA Event:', eventName, parameters);
+            }
+        }
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                        trackEvent('pwa_service_worker_registered');
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                        trackEvent('pwa_service_worker_failed');
+                    });
+            });
+        }
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DOM elements
+            dropZone = document.getElementById('dropZone');
+            promptDisplay = document.getElementById('promptDisplay');
+            copyButton = document.getElementById('copyButton');
+            makeImageButton = document.getElementById('makeImageButton');
+            clearAllButton = document.getElementById('clearAllButton');
+            
+            initAudio();
+            createParticles();
+            initializeDragAndDrop();
+            setupEventListeners();
+            updateGameState();
+            
+            // Track app initialization
+            trackEvent('app_initialized', {
+                'user_agent': navigator.userAgent,
+                'screen_resolution': screen.width + 'x' + screen.height,
+                'viewport_size': window.innerWidth + 'x' + window.innerHeight
+            });
+        });
+
+        // Create animated background particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 6 + 3) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function initializeDragAndDrop() {
+            const componentItems = document.querySelectorAll('.component-item');
+            
+            componentItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('click', handleClick);
+            });
+
+            if (dropZone) {
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragenter', handleDragEnter);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+            }
+        }
+
+        function handleDragStart(e) {
+            const data = {
+                category: this.dataset.category,
+                value: this.dataset.value,
+                text: this.textContent.trim()
+            };
+            
+            e.dataTransfer.setData('text/plain', JSON.stringify(data));
+            this.style.opacity = '0.5';
+            
+            // Play category sound
+            playSound(data.category);
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            if (!dropZone.contains(e.relatedTarget)) {
+                dropZone.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+            
+            // Track component drag & drop
+            trackEvent('component_dropped', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'interaction_type': 'drag_drop'
+            });
+            
+            addComponent(data);
+        }
+
+        function handleClick(e) {
+            const data = {
+                category: this.dataset.category,
+                value: this.dataset.value,
+                text: this.textContent.trim()
+            };
+            
+            // Play category sound
+            playSound(data.category);
+            
+            addComponent(data);
+            
+            // Track component click
+            trackEvent('component_clicked', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'interaction_type': 'click'
+            });
+            
+            // Enhanced visual feedback for click
+            this.style.transform = 'scale(0.9) rotate(-5deg)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        }
+
+        async function addComponent(data) {
+            // Check if component already exists
+            const exists = promptComponents.some(comp => comp.value === data.value);
+            if (exists) {
+                showNotification('Component already added', 'warning');
+                return;
+            }
+
+            promptComponents.push(data);
+            await updateGameState();
+            showNotification('Component added', 'success');
+            
+            // Track component added
+            trackEvent('component_added', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'total_components': promptComponents.length
+            });
+            
+            // Play success sound when component is successfully added
+            playSuccessSound();
+        }
+
+        async function updateGameState() {
+            updateDropZone();
+            await updatePromptDisplay();
+        }
+
+        function updateDropZone() {
+            dropZone.classList.remove('empty');
+            dropZone.innerHTML = '';
+
+            promptComponents.forEach((component, index) => {
+                const componentElement = document.createElement('div');
+                componentElement.className = 'prompt-component';
+                componentElement.setAttribute('data-category', component.category);
+                componentElement.innerHTML = `
+                    <span>${component.text}</span>
+                    <button class="remove-btn" onclick="removeComponent(${index})" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                dropZone.appendChild(componentElement);
+            });
+
+            if (promptComponents.length === 0) {
+                dropZone.classList.add('empty');
+            }
+        }
+
+        async function removeComponent(index) {
+            promptComponents.splice(index, 1);
+            await updateGameState();
+            showNotification('Component removed', 'info');
+        }
+
+        async function updatePromptDisplay() {
+            if (promptComponents.length === 0) {
+                promptDisplay.textContent = 'Your enhanced AI prompt will appear here...';
+                promptDisplay.classList.add('empty');
+                return;
+            }
+
+            promptDisplay.classList.remove('empty');
+            promptDisplay.textContent = 'Generating enhanced prompt...';
+            
+            try {
+                const enhancedPrompt = await generateEnhancedPrompt();
+                promptDisplay.textContent = enhancedPrompt;
+            } catch (error) {
+                console.error('Prompt generation failed:', error);
+                // Fallback to enhanced basic prompt
+                const basicPrompt = createBasicEnhancedPrompt();
+                promptDisplay.textContent = basicPrompt;
+            }
+        }
+        
+        function createBasicEnhancedPrompt() {
+            // Create a readable prompt without API call
+            const subjects = promptComponents.filter(c => c.category === 'subject');
+            const actions = promptComponents.filter(c => c.category === 'actions');
+            const styles = promptComponents.filter(c => c.category === 'style');
+            const lighting = promptComponents.filter(c => c.category === 'lighting');
+            const technical = promptComponents.filter(c => c.category === 'technical');
+            
+            let prompt = '';
+            
+            // Build a natural sentence
+            if (subjects.length > 0) {
+                prompt += subjects[0].value;
+            }
+            
+            if (actions.length > 0) {
+                prompt += ' ' + actions[0].value;
+            }
+            
+            if (subjects.length === 0 && actions.length === 0) {
+                prompt = 'An image';
+            }
+            
+            if (styles.length > 0) {
+                prompt += ', ' + styles[0].value;
+            }
+            
+            if (lighting.length > 0) {
+                prompt += ', ' + lighting[0].value;
+            }
+            
+            if (technical.length > 0) {
+                prompt += ', ' + technical[0].value;
+            }
+            
+            // Add any remaining components
+            const remaining = promptComponents.filter(c => 
+                !subjects.includes(c) && !actions.includes(c) && 
+                !styles.includes(c) && !lighting.includes(c) && !technical.includes(c)
+            );
+            
+            if (remaining.length > 0) {
+                prompt += ', ' + remaining.map(c => c.value).join(', ');
+            }
+            
+            return prompt || 'Create an image with your selected components';
+        }
+        
+        async function generateEnhancedPrompt() {
+            const components = promptComponents.map(comp => ({
+                category: comp.category,
+                value: comp.value
+            }));
+            
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                // Note: This should be handled server-side in production
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: [{
+                        role: 'system',
+                        content: `You are an expert at creating clear, readable image prompts that anyone can understand. Transform the user's components into a natural, descriptive sentence.
+
+                        Rules:
+                        1. Write in simple, everyday language that sounds natural when read aloud
+                        2. Create a complete sentence that flows smoothly from beginning to end
+                        3. Use descriptive words that paint a clear picture in the reader's mind
+                        4. Keep it under 150 characters so it's easy to read and use
+                        5. Make it sound like something a person would actually say to describe a scene
+                        6. Avoid technical jargon - use plain English instead
+                        
+                        Return only the readable prompt, no explanations.`
+                    }, {
+                        role: 'user',
+                        content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Make it sound natural and descriptive, like you're explaining the image to a friend.`
+                    }],
+                    max_tokens: 100,
+                    temperature: 0.8
+                })
+            });
+            
+            const data = await response.json();
+            
+            // Check for API errors
+            if (!response.ok) {
+                console.error('OpenAI API Error:', data);
+                throw new Error(`API Error: ${data.error?.message || response.statusText}`);
+            }
+            
+            // Validate response structure
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                console.error('Unexpected API response structure:', data);
+                throw new Error('Invalid response from OpenAI API');
+            }
+            
+            return data.choices[0].message.content.trim();
+        }
+
+
+        function setupEventListeners() {
+            if (copyButton) {
+                copyButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    copyPromptToClipboard();
+                });
+            }
+            
+            if (makeImageButton) {
+                makeImageButton.addEventListener('click', openMakeImage);
+            }
+            
+            if (clearAllButton) {
+                clearAllButton.addEventListener('click', clearAllComponents);
+            }
+            
+            // Enable audio context on first user interaction
+            document.addEventListener('click', function enableAudio() {
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }, { once: true });
+        }
+
+        function copyPromptToClipboard() {
+            console.log('copyPromptToClipboard called');
+            const promptText = promptDisplay.textContent.trim();
+            console.log('Prompt text:', promptText);
+            
+            // Check if there's actual content to copy
+            if (!promptText || 
+                promptText === 'Your enhanced AI prompt will appear here...' || 
+                promptText === 'Generating enhanced prompt...') {
+                showNotification('No prompt to copy yet! Add some components first.', 'warning');
+                return;
+            }
+            
+            // Track copy attempt
+            trackEvent('copy_prompt_attempted', {
+                'prompt_length': promptText.length,
+                'components_count': promptComponents.length
+            });
+            
+            // Try modern clipboard API first (requires HTTPS or localhost)
+            if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    showNotification('Prompt copied to clipboard!', 'success');
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt';
+                    }, 2000);
+                    
+                    // Track successful copy
+                    trackEvent('prompt_copied', {
+                        'method': 'clipboard_api',
+                        'prompt_length': promptText.length
+                    });
+                }).catch(err => {
+                    console.error('Clipboard API failed:', err);
+                    fallbackCopyTextToClipboard(promptText);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(promptText);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            
+            // Avoid scrolling to bottom
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showNotification('Prompt copied to clipboard!', 'success');
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt';
+                    }, 2000);
+                    
+                    // Track successful fallback copy
+                    trackEvent('prompt_copied', {
+                        'method': 'fallback_execcommand',
+                        'prompt_length': text.length
+                    });
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                showNotification('Copy failed. Please select and copy the prompt manually.', 'error');
+                // Select the prompt text for manual copying
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(promptDisplay);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function openMakeImage() {
+            window.open('https://chatgpt.com/g/g-5yXoSmKOX-make-image', '_blank');
+            showNotification('Opening Make Image in new tab!', 'success');
+            
+            // Track Make Image link click
+            trackEvent('make_image_clicked', {
+                'components_count': promptComponents.length,
+                'has_prompt': promptDisplay.textContent.trim() !== 'Your enhanced AI prompt will appear here...'
+            });
+        }
+
+        async function clearAllComponents() {
+            if (promptComponents.length === 0) {
+                showNotification('Drop zone is already empty!', 'info');
+                return;
+            }
+            
+            // Show confirmation dialog
+            const confirmed = confirm(`Are you sure you want to clear all ${promptComponents.length} component${promptComponents.length === 1 ? '' : 's'} from the drop zone?\n\nThis action cannot be undone.`);
+            
+            if (!confirmed) {
+                return;
+            }
+            
+            const previousCount = promptComponents.length;
+            
+            // Play clear sound
+            playClearSound();
+            
+            promptComponents = [];
+            await updateGameState();
+            showNotification('All components cleared!', 'success');
+            
+            // Track clear all action
+            trackEvent('components_cleared', {
+                'cleared_count': previousCount
+            });
+        }
+
+        async function resetGame() {
+            promptComponents = [];
+            await updateGameState();
+            showNotification('Game reset', 'info');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
