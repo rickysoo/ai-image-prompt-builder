@@ -32,12 +32,86 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API endpoint to get environment variables
-  if (req.url === '/api/config') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'not-found'
-    }));
+  // API endpoint for prompt generation
+  if (req.url === '/api/generate-prompt' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', async () => {
+      try {
+        const { components } = JSON.parse(body);
+        
+        if (!components || !Array.isArray(components)) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid components data' }));
+          return;
+        }
+
+        const API_KEY = process.env.OPENAI_API_KEY;
+        
+        if (!API_KEY || API_KEY === 'your-actual-openai-api-key-here') {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'OpenAI API key not configured in .env.local' }));
+          return;
+        }
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o-mini',
+            messages: [{
+              role: 'system',
+              content: `You are an expert at creating clear, readable image prompts that anyone can understand. Transform the user's components into a natural, descriptive sentence.
+
+              Rules:
+              1. Write in simple, everyday language that sounds natural when read aloud
+              2. Create a complete sentence that flows smoothly from beginning to end
+              3. Use descriptive words that paint a clear picture in the reader's mind
+              4. Keep it under 150 characters so it's easy to read and use
+              5. Make it sound like something a person would actually say to describe a scene
+              6. Avoid technical jargon - use plain English instead
+              
+              Return only the readable prompt, no explanations.`
+            }, {
+              role: 'user',
+              content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Make it sound natural and descriptive, like you're explaining the image to a friend.`
+            }],
+            max_tokens: 100,
+            temperature: 0.8
+          })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          console.error('OpenAI API Error:', data);
+          res.writeHead(response.status, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: data.error?.message || 'OpenAI API error' }));
+          return;
+        }
+        
+        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+          console.error('Unexpected API response structure:', data);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid response from OpenAI API' }));
+          return;
+        }
+        
+        const enhancedPrompt = data.choices[0].message.content.trim();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ prompt: enhancedPrompt }));
+
+      } catch (error) {
+        console.error('Server error:', error);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Internal server error' }));
+      }
+    });
     return;
   }
 

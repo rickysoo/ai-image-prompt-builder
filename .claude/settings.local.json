@@ -6,7 +6,8 @@
       "Bash(git add:*)",
       "Bash(gh repo create:*)",
       "Bash(git commit:*)",
-      "Bash(gh repo create:*)"
+      "Bash(gh repo create:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }

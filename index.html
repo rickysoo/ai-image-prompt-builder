@@ -793,21 +793,8 @@
     </div>
 
     <script>
-        // API Configuration - Environment Variable Handling
-        const API_KEY = (() => {
-            // For Vercel and other build-time environments
-            if (typeof process !== 'undefined' && process.env && process.env.OPENAI_API_KEY) {
-                return process.env.OPENAI_API_KEY;
-            }
-            
-            // For local development - you can temporarily set your key here
-            // IMPORTANT: Replace this with your actual API key for testing
-            // For production, use Vercel environment variables
-            return 'your-api-key-here';
-        })();
-        
-        // Note: In production, use environment variables or server-side proxy
-        // Never expose API keys in client-side code
+        // API calls are now handled securely via serverless functions
+        // No API keys exposed in client-side code
 
         // Game state
         let promptComponents = [];
@@ -1220,52 +1207,33 @@
                 value: comp.value
             }));
             
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            // Use Vercel serverless function for secure API calls
+            const apiUrl = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+                ? 'http://localhost:3000/api/generate-prompt'  // Local development
+                : '/api/generate-prompt';  // Production (Vercel)
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${API_KEY}`,
                     'Content-Type': 'application/json'
                 },
-                // Note: This should be handled server-side in production
-                body: JSON.stringify({
-                    model: 'gpt-4o-mini',
-                    messages: [{
-                        role: 'system',
-                        content: `You are an expert at creating clear, readable image prompts that anyone can understand. Transform the user's components into a natural, descriptive sentence.
-
-                        Rules:
-                        1. Write in simple, everyday language that sounds natural when read aloud
-                        2. Create a complete sentence that flows smoothly from beginning to end
-                        3. Use descriptive words that paint a clear picture in the reader's mind
-                        4. Keep it under 150 characters so it's easy to read and use
-                        5. Make it sound like something a person would actually say to describe a scene
-                        6. Avoid technical jargon - use plain English instead
-                        
-                        Return only the readable prompt, no explanations.`
-                    }, {
-                        role: 'user',
-                        content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Make it sound natural and descriptive, like you're explaining the image to a friend.`
-                    }],
-                    max_tokens: 100,
-                    temperature: 0.8
-                })
+                body: JSON.stringify({ components })
             });
             
             const data = await response.json();
             
             // Check for API errors
             if (!response.ok) {
-                console.error('OpenAI API Error:', data);
-                throw new Error(`API Error: ${data.error?.message || response.statusText}`);
+                console.error('API Error:', data);
+                throw new Error(`API Error: ${data.error || 'Unknown error'}`);
             }
             
-            // Validate response structure
-            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-                console.error('Unexpected API response structure:', data);
-                throw new Error('Invalid response from OpenAI API');
+            if (!data.prompt) {
+                console.error('Invalid response structure:', data);
+                throw new Error('Invalid response from prompt generation API');
             }
             
-            return data.choices[0].message.content.trim();
+            return data.prompt;
         }
 
 
