@@ -1178,6 +1178,68 @@
             box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
         }
 
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.3;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 280px;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 8px solid rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .tooltip:hover::after,
+        .tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip:hover::after {
+            transform: translateX(-50%) translateY(calc(-100% - 5px));
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -1334,6 +1396,12 @@
                 transition: transform 0.1s ease;
             }
 
+            /* Disable tooltips on mobile for better touch experience */
+            .tooltip::after,
+            .tooltip::before {
+                display: none;
+            }
+
             .drop-zone {
                 min-height: 120px;
                 padding: 1rem;
@@ -1458,7 +1526,7 @@
             <!-- Components Grid -->
             <div class="components-grid">
                 <!-- Subjects Section -->
-                <div class="component-section subjects-section">
+                <div class="component-section subjects-section tooltip" data-tooltip="The main focus of your image - people, objects, animals, or scenes that will be the primary subject">
                     <h3 class="section-title">🎭 Subjects</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="subject" data-value="A young woman" draggable="true">
@@ -1489,7 +1557,7 @@
                 </div>
 
                 <!-- Actions Section -->
-                <div class="component-section actions-section">
+                <div class="component-section actions-section tooltip" data-tooltip="What your subject is doing - activities, poses, or movements that bring life to your image">
                     <h3 class="section-title">🏃 Actions</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="actions" data-value="walking confidently" draggable="true">
@@ -1528,7 +1596,7 @@
                 </div>
 
                 <!-- Styles Section -->
-                <div class="component-section styles-section">
+                <div class="component-section styles-section tooltip" data-tooltip="The artistic style and visual approach - from photorealistic to cartoon, painterly to minimalist">
                     <h3 class="section-title">🎨 Styles</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="style" data-value="realistic style" draggable="true">
@@ -1571,7 +1639,7 @@
                 </div>
 
                 <!-- Lighting Section -->
-                <div class="component-section lighting-section">
+                <div class="component-section lighting-section tooltip" data-tooltip="How your image is lit - the mood, direction, and quality of light that sets the atmosphere">
                     <h3 class="section-title">💡 Lighting</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="lighting" data-value="golden hour lighting" draggable="true">
@@ -1602,7 +1670,7 @@
                 </div>
 
                 <!-- Technical Section -->
-                <div class="component-section technical-section">
+                <div class="component-section technical-section tooltip" data-tooltip="Image quality and technical specifications - resolution, detail level, and professional rendering settings">
                     <h3 class="section-title">⚙️ Technical</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="technical" data-value="8K resolution" draggable="true">
@@ -1633,7 +1701,7 @@
                 </div>
 
                 <!-- Framing Section -->
-                <div class="component-section framing-section">
+                <div class="component-section framing-section tooltip" data-tooltip="Camera angles and shot composition - how close or far, what perspective and viewing angle to capture">
                     <h3 class="section-title">📷 Framing</h3>
                     <div class="component-list">
                         <div class="component-item" data-category="framing" data-value="close-up shot" draggable="true">
