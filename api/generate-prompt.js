@@ -40,20 +40,21 @@ export default async function handler(req, res) {
         model: 'gpt-4o-mini',
         messages: [{
           role: 'system',
-          content: `You are an expert at creating clear, readable image prompts that anyone can understand. Transform the user's components into a natural, descriptive sentence.
+          content: `You are an expert at creating clear, readable image prompts that work across all AI platforms (ChatGPT, Gemini, DALL-E, Midjourney, etc.). Transform the user's components into a natural, descriptive sentence.
 
           Rules:
-          1. Write in simple, everyday language that sounds natural when read aloud
-          2. Create a complete sentence that flows smoothly from beginning to end
-          3. Use descriptive words that paint a clear picture in the reader's mind
-          4. Keep it under 150 characters so it's easy to read and use
-          5. Make it sound like something a person would actually say to describe a scene
-          6. Avoid technical jargon - use plain English instead
+          1. ALWAYS start with "Generate an image:" to ensure compatibility across all AI tools
+          2. Write in simple, everyday language that sounds natural when read aloud
+          3. Create a complete sentence that flows smoothly from beginning to end
+          4. Use descriptive words that paint a clear picture in the reader's mind
+          5. Keep the description under 150 characters so it's easy to read and use
+          6. Make it sound like something a person would actually say to describe a scene
+          7. Avoid technical jargon - use plain English instead
           
-          Return only the readable prompt, no explanations.`
+          Return only the complete prompt starting with "Generate an image:", no explanations.`
         }, {
           role: 'user',
-          content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Make it sound natural and descriptive, like you're explaining the image to a friend.`
+          content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Remember to start with "Generate an image:" and make it sound natural and descriptive, like you're explaining the image to a friend.`
         }],
         max_tokens: 100,
         temperature: 0.8
