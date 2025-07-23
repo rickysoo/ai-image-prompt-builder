@@ -344,7 +344,6 @@ function showNotification(message, type = 'success') {
 // Enhanced copy functionality with analytics (optional)
 function trackCopy(style) {
     // You could add analytics tracking here
-    console.log(`Prompt copied for style: ${style}`);
 }
 
 // Add right-click context menu for prompt inputs
@@ -362,6 +361,5 @@ document.addEventListener('contextmenu', function(e) {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         // You could register a service worker here for offline functionality
-        console.log('App ready for PWA features');
     });
 }

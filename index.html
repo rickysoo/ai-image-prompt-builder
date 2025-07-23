@@ -1595,7 +1595,6 @@
         function trackEvent(eventName, parameters = {}) {
             if (typeof gtag !== 'undefined') {
                 gtag('event', eventName, parameters);
-                console.log('GA Event:', eventName, parameters);
             }
         }
 
@@ -1604,11 +1603,9 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
-                        console.log('SW registered: ', registration);
                         trackEvent('pwa_service_worker_registered');
                     })
                     .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
                         trackEvent('pwa_service_worker_failed');
                     });
             });
@@ -1829,7 +1826,6 @@
             
             try {
                 const enhancedPrompt = await generateEnhancedPrompt();
-                console.log('Enhanced prompt received:', enhancedPrompt);
                 
                 // Ensure the prompt starts with "Generate an image:" for compatibility
                 const finalPrompt = enhancedPrompt.startsWith('Generate an image:') 
@@ -1841,7 +1837,6 @@
                 console.error('Prompt generation failed:', error);
                 // Fallback to enhanced basic prompt
                 const basicPrompt = createBasicEnhancedPrompt();
-                console.log('Using fallback prompt:', basicPrompt);
                 promptDisplay.textContent = basicPrompt;
             }
         }
@@ -1957,9 +1952,7 @@
         }
 
         function copyPromptToClipboard() {
-            console.log('copyPromptToClipboard called');
             const promptText = promptDisplay.textContent.trim();
-            console.log('Prompt text:', promptText);
             
             // Check if there's actual content to copy
             if (!promptText || 

@@ -14,13 +14,12 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
         return cache.addAll(urlsToCache.map(url => new Request(url, {
           credentials: 'same-origin'
         })));
       })
       .catch(error => {
-        console.log('Cache addAll failed:', error);
+        // Cache initialization failed - app will still work without offline support
       })
   );
   self.skipWaiting();
@@ -70,7 +69,6 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
