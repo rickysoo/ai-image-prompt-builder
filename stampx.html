@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn STAMPX | The Image Prompt Formula</title>
+    <title>Image Prompting with STAMPX</title>
     <meta name="description" content="Learn the STAMPX formula for AI image prompts: Subject, Tone and Lighting, Action, Mode and Framing, Photo Style and eXclusions. Pick a chip for each letter and watch your prompt build itself.">
     <meta name="theme-color" content="#1e3c72">
     <link rel="manifest" href="manifest.json">
-    <meta property="og:title" content="Learn STAMPX | The Image Prompt Formula">
+    <meta property="og:title" content="Image Prompting with STAMPX">
     <meta property="og:description" content="Six letters, one great image prompt. Build your own STAMPX prompt in a few taps.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://image.aicoach.my/stampx.html">
@@ -1640,6 +1640,11 @@
             line-height: 1.8;
         }
 
+        #promptDisplay.loading {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
         /* Colour-coded prompt */
         .prompt-display .part {
             border-bottom: 3px solid;
@@ -1721,10 +1726,9 @@
         <div class="header stampx-header">
             <h1 class="title">
                 <div class="app-logo"></div>
-                Learn STAMPX
+                Image Prompting with STAMPX
             </h1>
             <div class="subtitle-container">
-                <p class="subtitle">Six letters, one great image prompt. Tap a chip in each box to build yours.</p>
                 <div class="workflow-guide" id="workflowGuide"></div>
             </div>
         </div>
@@ -2070,34 +2074,88 @@
             return text.charAt(0).toUpperCase() + text.slice(1);
         }
 
+        // Fallback when the AI is unavailable: the STAMPX parts joined in order,
+        // each underlined in its letter's colour.
+        function renderLocalPrompt(parts) {
+            promptDisplay.innerHTML = '';
+            promptDisplay.appendChild(document.createTextNode('Generate an image: '));
+            parts.forEach(p => {
+                if (!p.key) {
+                    promptDisplay.appendChild(document.createTextNode(p.text));
+                    return;
+                }
+                // Keep leading joiners (", in ") outside the underline
+                const lead = p.text.match(/^[ ,]*(?:in )?/i)[0];
+                if (lead) promptDisplay.appendChild(document.createTextNode(lead));
+                const span = document.createElement('span');
+                span.className = `part part-${p.key}`;
+                span.title = LETTER_BY_KEY[p.key].name;
+                span.textContent = p.text.slice(lead.length);
+                promptDisplay.appendChild(span);
+            });
+        }
+
+        // Same AI endpoint as the builder. Rapid taps are batched into one call,
+        // and only the newest reply is shown.
+        let enhanceTimer = null;
+        let enhanceRequest = 0;
+
+        function scheduleEnhance(parts) {
+            clearTimeout(enhanceTimer);
+            const requestId = ++enhanceRequest;
+            promptDisplay.classList.add('loading');
+            promptDisplay.textContent = 'Generating enhanced prompt...';
+            enhanceTimer = setTimeout(() => enhancePrompt(parts, requestId), 600);
+        }
+
+        async function enhancePrompt(parts, requestId) {
+            const components = LETTERS.flatMap(l => {
+                const pick = picks[l.key];
+                const chosen = Array.isArray(pick) ? pick : (pick ? [pick] : []);
+                return chosen.map(c => ({ category: `${l.key}: ${l.name}`, value: c.value }));
+            });
+
+            let prompt = null;
+            try {
+                const response = await fetch('/api/generate-prompt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ components, format: 'stampx' })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.prompt) throw new Error(data.error || 'No prompt returned');
+                prompt = data.prompt.startsWith('Generate an image:') ? data.prompt : `Generate an image: ${data.prompt}`;
+            } catch (error) {
+                console.error('Prompt generation failed:', error);
+            }
+
+            if (requestId !== enhanceRequest) return; // a newer pick is on its way
+            promptDisplay.classList.remove('loading');
+            if (prompt) {
+                promptDisplay.textContent = prompt;
+                trackEvent('stampx_prompt_enhanced', { letters: filledCount() });
+            } else {
+                renderLocalPrompt(parts);
+            }
+        }
+
         function renderPrompt() {
             const parts = buildPromptParts();
             const missing = LETTERS.filter(l => !isFilled(l.key));
 
             if (parts.length === 0) {
+                clearTimeout(enhanceTimer);
+                enhanceRequest++;
+                promptDisplay.classList.remove('loading');
                 promptDisplay.textContent = 'Your STAMPX prompt will appear here...';
                 promptDisplay.classList.add('empty');
             } else {
                 promptDisplay.classList.remove('empty');
-                promptDisplay.innerHTML = '';
-                parts.forEach(p => {
-                    if (!p.key) {
-                        promptDisplay.appendChild(document.createTextNode(p.text));
-                        return;
-                    }
-                    // Keep leading joiners (", in ") outside the underline
-                    const lead = p.text.match(/^[ ,]*(?:in )?/i)[0];
-                    if (lead) promptDisplay.appendChild(document.createTextNode(lead));
-                    const span = document.createElement('span');
-                    span.className = `part part-${p.key}`;
-                    span.title = LETTER_BY_KEY[p.key].name;
-                    span.textContent = p.text.slice(lead.length);
-                    promptDisplay.appendChild(span);
-                });
+                scheduleEnhance(parts);
             }
 
             if (missing.length === 0) {
-                missingHint.textContent = '🏆 All six letters! This prompt is ready to paste into ChatGPT or Gemini.';
+                missingHint.textContent = '🏆 All six letters! Copy the prompt and paste it into ChatGPT or Gemini.';
                 missingHint.classList.add('complete');
             } else {
                 missingHint.classList.remove('complete');
@@ -2229,6 +2287,10 @@
             const text = promptDisplay.textContent.trim();
             if (promptDisplay.classList.contains('empty') || !text) {
                 showNotification('No prompt yet! Tap a chip in each box first.', 'warning');
+                return;
+            }
+            if (promptDisplay.classList.contains('loading')) {
+                showNotification('Still writing your prompt. One moment!', 'warning');
                 return;
             }
             const done = () => {

@@ -5,6 +5,29 @@ require('dotenv').config({ path: '.env.local' });
 
 const port = 3000;
 
+// STAMPX page: keep every element (Subject, Tone & Lighting, Action, Mode & Framing,
+// Photo Style, eXclusions). The page sends only this flag, never its own instructions.
+function stampxMessages(components) {
+  return [{
+    role: 'system',
+    content: `You turn STAMPX components into one clear image prompt that works in ChatGPT, Gemini, DALL-E and Midjourney.
+
+STAMPX: S = Subject, T = Tone & Lighting, A = Action, M = Mode & Framing (camera distance and angle), P = Photo Style, X = eXclusions (things that must NOT appear).
+
+Rules:
+1. ALWAYS start with "Generate an image:"
+2. Include EVERY component you are given. Never drop or replace one.
+3. Write one natural, flowing description in simple everyday English.
+4. Put all exclusions together in one final sentence, e.g. "No text or watermark."
+5. Keep it under 350 characters.
+
+Return only the prompt, no explanations.`
+  }, {
+    role: 'user',
+    content: `Write the image prompt using these STAMPX components: ${JSON.stringify(components)}`
+  }];
+}
+
 // MIME types
 const mimeTypes = {
   '.html': 'text/html',
@@ -40,7 +63,7 @@ const server = http.createServer((req, res) => {
     });
     req.on('end', async () => {
       try {
-        const { components } = JSON.parse(body);
+        const { components, format } = JSON.parse(body);
         
         if (!components || !Array.isArray(components)) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -64,7 +87,7 @@ const server = http.createServer((req, res) => {
           },
           body: JSON.stringify({
             model: 'gpt-4o-mini',
-            messages: [{
+            messages: format === 'stampx' ? stampxMessages(components) : [{
               role: 'system',
               content: `You are an expert at creating clear, readable image prompts that anyone can understand. Transform the user's components into a natural, descriptive sentence.
 
@@ -81,7 +104,7 @@ const server = http.createServer((req, res) => {
               role: 'user',
               content: `Create a clear, readable image prompt using these components: ${JSON.stringify(components)}. Make it sound natural and descriptive, like you're explaining the image to a friend.`
             }],
-            max_tokens: 100,
+            max_tokens: format === 'stampx' ? 200 : 100,
             temperature: 0.8
           })
         });
