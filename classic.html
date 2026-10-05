@@ -3,28 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Prompting with STAMPX</title>
-    <meta name="description" content="Learn the STAMPX formula for AI image prompts: Subject, Tone and Lighting, Action, Mode and Framing, Photo Style and eXclusions. Pick a chip for each letter and watch your prompt build itself.">
+    <title>AI Image Prompt Builder | Create Perfect Prompts for AI Art Generation</title>
+    <meta name="description" content="Build professional AI image prompts with our interactive drag-and-drop tool. Craft perfect prompts for DALL-E, Midjourney, Stable Diffusion & more. Free AI prompt generator with GPT-4 enhancement.">
+    <meta name="keywords" content="AI image prompt builder, AI art generator, DALL-E prompts, Midjourney prompts, Stable Diffusion prompts, AI prompt generator, image prompt tool">
+    <meta name="author" content="AI Image Prompt Builder">
     <meta name="theme-color" content="#1e3c72">
     <link rel="manifest" href="manifest.json">
-    <meta property="og:title" content="Image Prompting with STAMPX">
-    <meta property="og:description" content="Six letters, one great image prompt. Build your own STAMPX prompt in a few taps.">
+    <meta property="og:title" content="AI Image Prompt Builder | Create Perfect AI Art Prompts">
+    <meta property="og:description" content="Interactive tool to build professional AI image prompts. Drag, drop, and craft perfect prompts for AI art generation with GPT-4 enhancement.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://image.aicoach.my/">
+    <meta property="og:url" content="https://yoursite.com">
+    <meta property="og:image" content="https://yoursite.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Image Prompt Builder">
+    <meta name="twitter:description" content="Create perfect AI image prompts with our interactive tool. Free prompt generator for DALL-E, Midjourney & more.">
     <link rel="icon" type="image/svg+xml" href="icon-192.svg">
+    <link rel="icon" type="image/svg+xml" sizes="512x512" href="icon-512.svg">
     <link rel="apple-touch-icon" href="icon-192.svg">
-
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MBD8RK69P"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1MBD8RK69P', {
-          cookie_flags: 'SameSite=None;Secure',
-          send_page_view: true
-        });
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1MBD8RK69P', {
+        cookie_flags: 'SameSite=None;Secure',
+        send_page_view: true
+      });
     </script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -230,6 +238,21 @@
         .workflow-arrow {
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.6rem;
+        }
+
+        .learn-link {
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+            white-space: nowrap;
+        }
+
+        .learn-link:hover {
+            background: linear-gradient(135deg, #34d399, #10b981);
         }
 
         .title {
@@ -1033,6 +1056,10 @@
             background: linear-gradient(135deg, #f59e0b, #d97706);
         }
 
+        .prompt-component[data-category="actions"] {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
         .prompt-component[data-category="lighting"] {
             background: linear-gradient(135deg, #ef4444, #dc2626);
         }
@@ -1441,405 +1468,6 @@
                 min-height: 40px;
             }
         }
-
-        /* ===== STAMPX page ===== */
-
-        /* Sections in STAMPX order: S T A / M P X */
-        .stampx-grid {
-            grid-template-areas:
-                "subjects lighting actions"
-                "framing styles technical";
-        }
-
-        .stampx-header .subtitle-container {
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .stampx-header .workflow-step {
-            white-space: nowrap;
-        }
-
-        /* STAMPX letters: each in its own colour, bolder than the word after it.
-           The fill override lets them show inside gradient-clipped headings. */
-        .ltr {
-            font-weight: 900;
-            font-size: 1.2em;
-            line-height: 1;
-            background: none;
-            -webkit-text-fill-color: currentColor;
-            text-shadow: 0 0 10px currentColor;
-        }
-
-        .ltr-S { color: #6ee7b7; }
-        .ltr-T { color: #fca5a5; }
-        .ltr-A { color: #67e8f9; }
-        .ltr-M { color: #5eead4; }
-        .ltr-P { color: #fcd34d; }
-        .ltr-X { color: #c4b5fd; }
-
-        .section-title .ltr {
-            margin-right: 0.15em;
-        }
-
-        /* ===== Compact layout: whole builder fits on one screen ===== */
-        .app-container {
-            padding: 0.5rem 0.75rem;
-        }
-
-        .top-bar {
-            position: absolute;
-            top: 0.5rem;
-            left: 0.75rem;
-            margin: 0;
-            z-index: 5;
-        }
-
-        .stampx-header {
-            margin-bottom: 0.6rem;
-        }
-
-        .stampx-header .title {
-            font-size: 1.5rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .stampx-header .app-logo {
-            width: 32px;
-            height: 32px;
-        }
-
-        .stampx-header .subtitle-container {
-            margin-top: 0;
-        }
-
-        .components-area {
-            margin-bottom: 0.75rem;
-        }
-
-        .stampx-grid {
-            gap: 0.6rem;
-        }
-
-        .stampx-grid .component-section {
-            padding: 0.6rem 0.75rem 0.75rem;
-        }
-
-        .stampx-grid .section-title {
-            margin-bottom: 0.15rem;
-        }
-
-        .stampx-grid .section-title::after {
-            display: none;
-        }
-
-        .stampx-grid .component-list {
-            gap: 0.4rem;
-        }
-
-        .workspace {
-            flex: none;
-            padding: 0.9rem;
-            gap: 1rem;
-        }
-
-        .drop-zone.slots {
-            min-height: 90px;
-            padding: 0.75rem;
-            gap: 0.4rem;
-        }
-
-        .drop-zone .prompt-component {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        /* Fill the screen height: the letter boxes share any spare height and
-           centre their contents, so tall screens don't end in an empty band. */
-        @media (min-width: 769px) {
-            .components-area {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
-            }
-
-            .stampx-grid {
-                flex: 1;
-                grid-auto-rows: 1fr;
-                gap: clamp(0.6rem, 1.6vh, 1rem);
-            }
-
-            .stampx-grid .component-section {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding: clamp(0.6rem, 2vh, 1.4rem) 0.9rem;
-            }
-
-            .stampx-header {
-                margin-bottom: clamp(0.6rem, 1.8vh, 1.1rem);
-            }
-        }
-
-        /* Taller screens: bigger chips and prompt area so the boxes look full, not padded.
-           Shorter screens keep the compact sizes so nothing needs scrolling. */
-        @media (min-width: 769px) and (min-height: 820px) {
-            .stampx-grid .section-title {
-                font-size: clamp(0.95rem, 2.3vh, 1.3rem);
-                margin-bottom: clamp(0.15rem, 0.8vh, 0.5rem);
-            }
-
-            .stampx-grid .letter-hint {
-                font-size: clamp(0.78rem, 1.9vh, 1.05rem);
-                margin-bottom: clamp(0.45rem, 1.4vh, 1rem);
-            }
-
-            .stampx-grid .component-list {
-                gap: clamp(0.4rem, 1vh, 0.7rem);
-            }
-
-            .stampx-grid .component-item {
-                font-size: clamp(0.75rem, 1.85vh, 1.05rem);
-                padding: clamp(0.4rem, 1.1vh, 0.7rem) clamp(0.6rem, 1.4vh, 1rem);
-            }
-
-            .drop-zone.slots,
-            .prompt-area #promptDisplay {
-                min-height: clamp(90px, 15vh, 180px);
-            }
-        }
-
-        /* Letter badges replace the step numbers */
-        .stampx-grid .component-section::before {
-            width: 30px;
-            height: 30px;
-            top: 10px;
-            left: 10px;
-            right: auto;
-            font-size: 0.95rem;
-            animation: none;
-        }
-        .stampx-grid .subjects-section::before { content: 'S'; }
-        .stampx-grid .lighting-section::before { content: 'T'; }
-        .stampx-grid .actions-section::before { content: 'A'; }
-        .stampx-grid .framing-section::before { content: 'M'; }
-        .stampx-grid .styles-section::before { content: 'P'; }
-        .stampx-grid .technical-section::before { content: 'X'; }
-
-        .letter-hint {
-            text-align: center;
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin: 0 0 0.45rem;
-            line-height: 1.35;
-        }
-
-        .letter-hint em {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        /* Section turns "complete" once its letter is filled */
-        .component-section.filled {
-            border-color: rgba(255, 255, 255, 0.75);
-        }
-
-        .component-section .done-tick {
-            position: absolute;
-            top: 0.6rem;
-            right: 0.75rem;
-            font-size: 0.9rem;
-            color: #fff;
-            opacity: 0;
-            transform: scale(0.3);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .component-section.filled .done-tick {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* X chips */
-        .component-item[data-category="exclusions"] {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
-        }
-
-        .component-item[data-category="exclusions"]:hover {
-            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4), 0 0 20px rgba(139, 92, 246, 0.2);
-        }
-
-        .component-item.picked {
-            outline: 2px solid #fff;
-            outline-offset: 2px;
-        }
-
-        .prompt-component[data-category="actions"] {
-            background: linear-gradient(135deg, #06b6d4, #0891b2);
-        }
-
-        .prompt-component[data-category="exclusions"] {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-
-        /* Top bar: nav, mode tabs, stats */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.75rem;
-        }
-
-        .nav-pill {
-            padding: 0.4rem 0.9rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: #fff;
-            font: inherit;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .nav-pill:hover {
-            background: rgba(255, 255, 255, 0.18);
-            transform: translateY(-1px);
-        }
-
-        /* Workflow letters light up as they are filled */
-        .workflow-step.done {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--letter-color);
-            color: #fff;
-            box-shadow: 0 0 12px var(--letter-color);
-        }
-
-        .workflow-step.done::after {
-            content: ' ✓';
-            font-weight: 800;
-        }
-
-        .workflow-step[data-letter="S"] { --letter-color: #6ee7b7; }
-        .workflow-step[data-letter="T"] { --letter-color: #fca5a5; }
-        .workflow-step[data-letter="A"] { --letter-color: #67e8f9; }
-        .workflow-step[data-letter="M"] { --letter-color: #5eead4; }
-        .workflow-step[data-letter="P"] { --letter-color: #fcd34d; }
-        .workflow-step[data-letter="X"] { --letter-color: #c4b5fd; }
-
-        /* Drop zone shows six fixed slots */
-        .drop-zone.slots {
-            align-content: center;
-        }
-
-        .slot {
-            padding: 0.35rem 0.75rem;
-            border-radius: 16px;
-            border: 2px dashed rgba(255, 255, 255, 0.35);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .slot b {
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .prompt-component .slot-letter {
-            font-weight: 800;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 6px;
-            padding: 0 0.35rem;
-        }
-
-        #promptDisplay {
-            height: auto;
-            min-height: 90px;
-            padding: 0.9rem 1rem;
-            margin-bottom: 0.4rem;
-            line-height: 1.7;
-        }
-
-        #promptDisplay.loading {
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
-        }
-
-        /* Colour-coded prompt */
-        .prompt-display .part {
-            border-bottom: 3px solid;
-            padding-bottom: 1px;
-        }
-        .prompt-display .part-S { border-color: #10b981; }
-        .prompt-display .part-T { border-color: #ef4444; }
-        .prompt-display .part-A { border-color: #06b6d4; }
-        .prompt-display .part-M { border-color: #14b8a6; }
-        .prompt-display .part-P { border-color: #f59e0b; }
-        .prompt-display .part-X { border-color: #8b5cf6; }
-
-        .missing-hint {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            min-height: 1.2em;
-        }
-
-        .missing-hint.complete {
-            color: #6ee7b7;
-            font-weight: 700;
-        }
-
-        /* Celebration burst */
-        .burst {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
-            pointer-events: none;
-            z-index: 2000;
-            animation: burstOut 1.2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
-        }
-
-        @keyframes burstOut {
-            0% { transform: translate(0, 0) rotate(0); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) rotate(540deg); opacity: 0; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .burst { display: none; }
-        }
-
-        @media (max-width: 768px) {
-            .stampx-grid {
-                grid-template-areas:
-                    "subjects"
-                    "lighting"
-                    "actions"
-                    "framing"
-                    "styles"
-                    "technical";
-            }
-
-            .top-bar {
-                position: static;
-                justify-content: center;
-                margin-bottom: 0.5rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1847,40 +1475,259 @@
     <div class="particles" id="particles"></div>
 
     <div class="app-container">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <a class="nav-pill" href="classic.html"><i class="fas fa-th-large"></i> Classic Builder</a>
-        </div>
-
         <!-- Header -->
-        <div class="header stampx-header">
+        <div class="header">
             <h1 class="title">
                 <div class="app-logo"></div>
-                <span>Image Prompting with <span class="ltr ltr-S">S</span><span class="ltr ltr-T">T</span><span class="ltr ltr-A">A</span><span class="ltr ltr-M">M</span><span class="ltr ltr-P">P</span><span class="ltr ltr-X">X</span></span>
+                Build Your Image Prompt
             </h1>
             <div class="subtitle-container">
-                <div class="workflow-guide" id="workflowGuide"></div>
+                <p class="subtitle">Click and craft the perfect AI image prompt with precision</p>
+                <div class="workflow-guide">
+                    <span class="workflow-step">1. Subject</span>
+                    <span class="workflow-arrow">→</span>
+                    <span class="workflow-step">2. Action</span>
+                    <span class="workflow-arrow">→</span>
+                    <span class="workflow-step">3. Style</span>
+                    <span class="workflow-arrow">→</span>
+                    <span class="workflow-step">4. Framing</span>
+                    <span class="workflow-arrow">→</span>
+                    <span class="workflow-step">5. Lighting</span>
+                    <span class="workflow-arrow">→</span>
+                    <span class="workflow-step">6. Technical</span>
+                </div>
+                <a class="workflow-step learn-link" href="/">✨ STAMPX Builder</a>
             </div>
         </div>
 
-        <!-- Letter sections -->
+        <!-- Components Area -->
         <div class="components-area">
-            <div class="components-grid stampx-grid" id="letterGrid"></div>
+            <!-- Components Grid -->
+            <div class="components-grid">
+                <!-- Subjects Section -->
+                <div class="component-section subjects-section tooltip-trigger" data-tooltip="The main focus of your image - people, objects, animals, or scenes that will be the primary subject">
+                    <h3 class="section-title">🎭 Subjects</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="subject" data-value="A young woman" draggable="true">
+                            <i class="fas fa-user"></i>
+                            Young woman
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A majestic mountain" draggable="true">
+                            <i class="fas fa-mountain"></i>
+                            Mountain landscape
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A vintage car" draggable="true">
+                            <i class="fas fa-car"></i>
+                            Vintage car
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="A cute cat" draggable="true">
+                            <i class="fas fa-cat"></i>
+                            Cute cat
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="Beautiful flowers" draggable="true">
+                            <i class="fas fa-seedling"></i>
+                            Flowers
+                        </div>
+                        <div class="component-item" data-category="subject" data-value="Urban street" draggable="true">
+                            <i class="fas fa-road"></i>
+                            Street scene
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="component-section actions-section tooltip-trigger" data-tooltip="What your subject is doing - activities, poses, or movements that bring life to your image">
+                    <h3 class="section-title">🏃 Actions</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="actions" data-value="walking confidently" draggable="true">
+                            <i class="fas fa-walking"></i>
+                            Walking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="running swiftly" draggable="true">
+                            <i class="fas fa-rocket"></i>
+                            Running
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="thinking deeply" draggable="true">
+                            <i class="fas fa-brain"></i>
+                            Thinking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="dancing gracefully" draggable="true">
+                            <i class="fas fa-music"></i>
+                            Dancing
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="reading quietly" draggable="true">
+                            <i class="fas fa-book"></i>
+                            Reading
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="working diligently" draggable="true">
+                            <i class="fas fa-laptop"></i>
+                            Working
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="cooking carefully" draggable="true">
+                            <i class="fas fa-utensils"></i>
+                            Cooking
+                        </div>
+                        <div class="component-item" data-category="actions" data-value="sleeping peacefully" draggable="true">
+                            <i class="fas fa-bed"></i>
+                            Sleeping
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Styles Section -->
+                <div class="component-section styles-section tooltip-trigger" data-tooltip="The artistic style and visual approach - from photorealistic to cartoon, painterly to minimalist">
+                    <h3 class="section-title">🎨 Styles</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="style" data-value="realistic style" draggable="true">
+                            <i class="fas fa-mountain"></i>
+                            Realistic
+                        </div>
+                        <div class="component-item" data-category="style" data-value="photographic style" draggable="true">
+                            <i class="fas fa-camera"></i>
+                            Photographic
+                        </div>
+                        <div class="component-item" data-category="style" data-value="painterly style" draggable="true">
+                            <i class="fas fa-paint-brush"></i>
+                            Painterly
+                        </div>
+                        <div class="component-item" data-category="style" data-value="sketch style" draggable="true">
+                            <i class="fas fa-pencil-alt"></i>
+                            Sketch
+                        </div>
+                        <div class="component-item" data-category="style" data-value="cartoon style" draggable="true">
+                            <i class="fas fa-smile"></i>
+                            Cartoon
+                        </div>
+                        <div class="component-item" data-category="style" data-value="surreal style" draggable="true">
+                            <i class="fas fa-cloud"></i>
+                            Surreal
+                        </div>
+                        <div class="component-item" data-category="style" data-value="Pixar 3D style" draggable="true">
+                            <i class="fas fa-cube"></i>
+                            Pixar 3D
+                        </div>
+                        <div class="component-item" data-category="style" data-value="concept art style" draggable="true">
+                            <i class="fas fa-rocket"></i>
+                            Concept Art
+                        </div>
+                        <div class="component-item" data-category="style" data-value="minimalist style" draggable="true">
+                            <i class="fas fa-minus"></i>
+                            Minimalist
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lighting Section -->
+                <div class="component-section lighting-section tooltip-trigger" data-tooltip="How your image is lit - the mood, direction, and quality of light that sets the atmosphere">
+                    <h3 class="section-title">💡 Lighting</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="lighting" data-value="golden hour lighting" draggable="true">
+                            <i class="fas fa-sun"></i>
+                            Golden hour
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="soft studio lighting" draggable="true">
+                            <i class="fas fa-lightbulb"></i>
+                            Studio lighting
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="dramatic shadows" draggable="true">
+                            <i class="fas fa-adjust"></i>
+                            Dramatic shadows
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="natural lighting" draggable="true">
+                            <i class="fas fa-cloud-sun"></i>
+                            Natural lighting
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="rim lighting" draggable="true">
+                            <i class="fas fa-circle"></i>
+                            Rim lighting
+                        </div>
+                        <div class="component-item" data-category="lighting" data-value="neon lighting" draggable="true">
+                            <i class="fas fa-bolt"></i>
+                            Neon lighting
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Section -->
+                <div class="component-section technical-section tooltip-trigger" data-tooltip="Image quality and technical specifications - resolution, detail level, and professional rendering settings">
+                    <h3 class="section-title">⚙️ Technical</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="technical" data-value="8K resolution" draggable="true">
+                            <i class="fas fa-expand"></i>
+                            8K resolution
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="ultra-realistic" draggable="true">
+                            <i class="fas fa-eye"></i>
+                            Ultra-realistic
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="professional photography" draggable="true">
+                            <i class="fas fa-camera-retro"></i>
+                            Professional
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="highly detailed" draggable="true">
+                            <i class="fas fa-search-plus"></i>
+                            Highly detailed
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="HDR rendering" draggable="true">
+                            <i class="fas fa-sliders-h"></i>
+                            HDR rendering
+                        </div>
+                        <div class="component-item" data-category="technical" data-value="cinematic quality" draggable="true">
+                            <i class="fas fa-film"></i>
+                            Cinematic
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Framing Section -->
+                <div class="component-section framing-section tooltip-trigger" data-tooltip="Camera angles and shot composition - how close or far, what perspective and viewing angle to capture">
+                    <h3 class="section-title">📷 Framing</h3>
+                    <div class="component-list">
+                        <div class="component-item" data-category="framing" data-value="close-up shot" draggable="true">
+                            <i class="fas fa-search"></i>
+                            Close-up
+                        </div>
+                        <div class="component-item" data-category="framing" data-value="medium shot" draggable="true">
+                            <i class="fas fa-compress-alt"></i>
+                            Medium shot
+                        </div>
+                        <div class="component-item" data-category="framing" data-value="wide shot" draggable="true">
+                            <i class="fas fa-expand-alt"></i>
+                            Wide shot
+                        </div>
+                        <div class="component-item" data-category="framing" data-value="low angle view" draggable="true">
+                            <i class="fas fa-angle-up"></i>
+                            Low angle
+                        </div>
+                        <div class="component-item" data-category="framing" data-value="eye level view" draggable="true">
+                            <i class="fas fa-eye"></i>
+                            Eye level
+                        </div>
+                        <div class="component-item" data-category="framing" data-value="bird's eye view" draggable="true">
+                            <i class="fas fa-angle-down"></i>
+                            Bird's eye
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Workspace -->
         <div class="workspace">
+            <!-- Drop Area -->
             <div class="drop-area">
-                <div class="drop-zone slots" id="dropZone"></div>
+                <div class="drop-zone empty" id="dropZone"></div>
             </div>
-
+            
+            <!-- Prompt Area -->
             <div class="prompt-area">
-                <div class="prompt-display empty" id="promptDisplay">
-                    Your STAMPX prompt will appear here...
+                <div class="prompt-display empty" id="promptDisplay" contenteditable="true" spellcheck="false">
+                    Your enhanced AI prompt will appear here...
                 </div>
-                <div class="missing-hint" id="missingHint"></div>
             </div>
-
+            
+            <!-- Buttons Area -->
             <div class="buttons-area">
                 <button id="copyButton" class="action-button">
                     <i class="fas fa-copy"></i> Copy Prompt
@@ -1889,533 +1736,203 @@
                     <i class="fas fa-trash"></i> Clear All
                 </button>
             </div>
-
         </div>
     </div>
 
     <script>
-        // ===== STAMPX data =====
-        // Each letter reuses one of the builder's section colours and sounds.
-        const LETTERS = [
-            {
-                key: 'S', name: 'Subject', category: 'subject', section: 'subjects-section',
-                hint: 'Who or what is in frame.',
-                tooltip: 'S, Subject: who or what is in the picture. Be specific: age, clothing, colour, breed.',
-                chips: [
-                    { label: 'Barista', icon: 'fa-coffee', value: 'A Malaysian barista in her 30s in a white apron' },
-                    { label: 'Chef', icon: 'fa-utensils', value: 'A smiling chef in a crisp white uniform' },
-                    { label: 'Golden retriever', icon: 'fa-dog', value: 'A fluffy golden retriever' },
-                    { label: 'Vintage car', icon: 'fa-car', value: 'A red 1960s vintage car' },
-                    { label: 'Mountain cabin', icon: 'fa-mountain', value: 'A small wooden cabin on a mountain' },
-                    { label: 'Coach', icon: 'fa-user-tie', value: 'A confident business coach in a navy blazer' }
-                ]
-            },
-            {
-                key: 'T', name: 'Tone & Lighting', category: 'lighting', section: 'lighting-section',
-                hint: 'The light and colour mood.',
-                tooltip: 'T, Tone & Lighting: the light and colour mood. Warm or cool, soft or dramatic.',
-                chips: [
-                    { label: 'Golden morning', icon: 'fa-sun', value: 'warm golden morning light' },
-                    { label: 'Soft studio', icon: 'fa-lightbulb', value: 'soft, even studio lighting' },
-                    { label: 'Moody shadows', icon: 'fa-adjust', value: 'moody, dramatic shadows' },
-                    { label: 'Neon night', icon: 'fa-bolt', value: 'vivid neon lights at night' },
-                    { label: 'Overcast', icon: 'fa-cloud', value: 'cool, soft overcast light' },
-                    { label: 'Sunset glow', icon: 'fa-cloud-sun', value: 'glowing orange sunset light' }
-                ]
-            },
-            {
-                key: 'A', name: 'Action', category: 'actions', section: 'actions-section',
-                hint: 'What is happening and where.',
-                tooltip: 'A, Action: what the subject is doing, and where it is happening.',
-                chips: [
-                    { label: 'Pouring latte', icon: 'fa-mug-hot', value: 'pouring latte art at a wooden counter' },
-                    { label: 'Running', icon: 'fa-walking', value: 'running along a sandy beach' },
-                    { label: 'Reading', icon: 'fa-book', value: 'reading a book in a cosy café' },
-                    { label: 'Parked', icon: 'fa-road', value: 'parked on a quiet city street' },
-                    { label: 'Presenting', icon: 'fa-users', value: 'presenting to a small team in a bright meeting room' },
-                    { label: 'Cooking', icon: 'fa-fire', value: 'stirring a pot over an open flame' }
-                ]
-            },
-            {
-                key: 'M', name: 'Mode & Framing', category: 'framing', section: 'framing-section',
-                hint: 'Where the camera sits.',
-                tooltip: 'M, Mode & Framing: where the camera sits. How close, and from which angle.',
-                chips: [
-                    { label: 'Close-up', icon: 'fa-search-plus', value: 'close-up shot' },
-                    { label: 'Medium, eye level', icon: 'fa-eye', value: 'medium shot, eye level' },
-                    { label: 'Wide shot', icon: 'fa-expand', value: 'wide shot' },
-                    { label: 'Low angle', icon: 'fa-angle-up', value: 'low angle looking up' },
-                    { label: "Bird's eye", icon: 'fa-angle-down', value: "bird's eye view from above" },
-                    { label: 'Over the shoulder', icon: 'fa-user', value: 'over-the-shoulder shot' }
-                ]
-            },
-            {
-                key: 'P', name: 'Photo Style', category: 'style', section: 'styles-section',
-                hint: 'What the picture looks like.',
-                tooltip: 'P, Photo Style: what the picture looks like. A real photo, a 3D cartoon, a painting, a sketch.',
-                chips: [
-                    { label: 'Photorealistic', icon: 'fa-camera', value: 'photorealistic, natural and inviting' },
-                    { label: 'Pixar 3D', icon: 'fa-cube', value: 'Pixar-style 3D animation' },
-                    { label: 'Watercolour', icon: 'fa-paint-brush', value: 'soft watercolour painting' },
-                    { label: 'Pencil sketch', icon: 'fa-pencil-alt', value: 'detailed pencil sketch' },
-                    { label: 'Cinematic', icon: 'fa-film', value: 'cinematic film still' },
-                    { label: 'Flat illustration', icon: 'fa-image', value: 'clean flat vector illustration' }
-                ]
-            },
-            {
-                key: 'X', name: 'eXclusions', category: 'exclusions', section: 'technical-section',
-                hint: 'What must not appear.',
-                tooltip: 'X, eXclusions: what must NOT appear. Pick as many as you need.',
-                multi: true,
-                chips: [
-                    { label: 'No text', icon: 'fa-ban', value: 'no text' },
-                    { label: 'No watermark', icon: 'fa-ban', value: 'no watermark' },
-                    { label: 'No cartoon effects', icon: 'fa-ban', value: 'no cartoon effects' },
-                    { label: 'No extra fingers', icon: 'fa-ban', value: 'no extra fingers' },
-                    { label: 'No blur', icon: 'fa-ban', value: 'no blur' },
-                    { label: 'No crowds', icon: 'fa-ban', value: 'no people in the background' }
-                ]
-            }
-        ];
+        // API calls are now handled securely via serverless functions
+        // No API keys exposed in client-side code
 
-        const LETTER_BY_KEY = Object.fromEntries(LETTERS.map(l => [l.key, l]));
+        // Game state
+        let promptComponents = [];
 
-        // ===== State =====
-        // picks: { S: chip, T: chip, ..., X: [chip, ...] }
-        let picks = {};
+        // DOM Elements (will be set after DOM loads)
+        let dropZone, promptDisplay, copyButton, clearAllButton;
 
-        let dropZone, promptDisplay, missingHint, copyButton, clearAllButton;
-
-        // ===== Audio (same tones as the builder) =====
+        // Audio Context for sound effects
         let audioContext;
         let soundEnabled = true;
 
+        // Initialize audio context
         function initAudio() {
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             } catch (e) {
+                console.log('Web Audio API not supported');
                 soundEnabled = false;
             }
         }
 
-        function playTone(frequency, waveType, duration, volume = 0.1, delay = 0) {
-            if (!soundEnabled || !audioContext) return;
-            setTimeout(() => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                oscillator.type = waveType;
-                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + duration);
-            }, delay);
-        }
-
+        // Play sound for different categories
         function playSound(category) {
-            const tones = {
-                subject: [523.25, 'sine', 0.15],
-                actions: [587.33, 'triangle', 0.13],
-                style: [659.25, 'triangle', 0.12],
-                lighting: [783.99, 'sawtooth', 0.1],
-                framing: [493.88, 'triangle', 0.11],
-                exclusions: [440.00, 'square', 0.08]
-            };
-            const [frequency, waveType, duration] = tones[category] || [500, 'sine', 0.1];
-            playTone(frequency, waveType, duration);
-        }
-
-        function playSuccessSound() {
-            [523.25, 659.25, 783.99].forEach((freq, i) => playTone(freq, 'sine', 0.2, 0.05, i * 50));
-        }
-
-        function playClearSound() {
             if (!soundEnabled || !audioContext) return;
+            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
+            
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
+            
+            // Different frequencies and tones for each category
+            let frequency, waveType, duration;
+            
+            switch(category) {
+                case 'subject':
+                    frequency = 523.25; // C5 - warm, human sound
+                    waveType = 'sine';
+                    duration = 0.15;
+                    break;
+                case 'actions':
+                    frequency = 587.33; // D5 - dynamic, active sound
+                    waveType = 'triangle';
+                    duration = 0.13;
+                    break;
+                case 'style':
+                    frequency = 659.25; // E5 - artistic, creative sound
+                    waveType = 'triangle';
+                    duration = 0.12;
+                    break;
+                case 'lighting':
+                    frequency = 783.99; // G5 - bright, illuminating sound
+                    waveType = 'sawtooth';
+                    duration = 0.1;
+                    break;
+                case 'technical':
+                    frequency = 440.00; // A4 - precise, technical sound
+                    waveType = 'square';
+                    duration = 0.08;
+                    break;
+                case 'framing':
+                    frequency = 493.88; // B4 - visual, framing sound
+                    waveType = 'triangle';
+                    duration = 0.11;
+                    break;
+                default:
+                    frequency = 500;
+                    waveType = 'sine';
+                    duration = 0.1;
+            }
+            
+            oscillator.type = waveType;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            
+            // Smooth volume envelope
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Play success sound when component is added
+        function playSuccessSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            // Play a pleasant chord progression
+            const frequencies = [523.25, 659.25, 783.99]; // C-E-G major chord
+            
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                }, index * 50);
+            });
+        }
+
+        // Play clear sound for clearing components
+        function playClearSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
             oscillator.type = 'sawtooth';
             oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.3);
+            
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
             gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.02);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.3);
         }
 
-        // ===== Analytics =====
+        // Google Analytics Event Tracking
         function trackEvent(eventName, parameters = {}) {
             if (typeof gtag !== 'undefined') {
                 gtag('event', eventName, parameters);
             }
         }
 
-        // ===== Rendering =====
-        function renderGuide() {
-            const guide = document.getElementById('workflowGuide');
-            guide.innerHTML = LETTERS.map((l, i) =>
-                `${i ? '<span class="workflow-arrow">→</span>' : ''}<span class="workflow-step" data-letter="${l.key}"><span class="ltr ltr-${l.key}">${l.key}</span> ${l.name}</span>`
-            ).join('');
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('letterGrid');
-            grid.innerHTML = LETTERS.map(l => `
-                <div class="component-section ${l.section} tooltip-trigger" data-letter="${l.key}" data-tooltip="${l.tooltip}">
-                    <i class="fas fa-check-circle done-tick"></i>
-                    <h3 class="section-title"><span class="ltr ltr-${l.key}">${l.key}</span> ${l.name}</h3>
-                    <p class="letter-hint">${l.hint}${l.multi ? ' <em>Pick several.</em>' : ''}</p>
-                    <div class="component-list">
-                        ${l.chips.map((c, i) => `
-                            <div class="component-item" data-letter="${l.key}" data-index="${i}" data-category="${l.category}" draggable="true">
-                                <i class="fas ${c.icon}"></i>
-                                ${c.label}
-                            </div>`).join('')}
-                    </div>
-                </div>`).join('');
-        }
-
-        function chipFrom(el) {
-            const letter = LETTER_BY_KEY[el.dataset.letter];
-            return { letter, chip: letter.chips[Number(el.dataset.index)] };
-        }
-
-        function isFilled(key) {
-            const pick = picks[key];
-            return Array.isArray(pick) ? pick.length > 0 : Boolean(pick);
-        }
-
-        function filledCount() {
-            return LETTERS.filter(l => isFilled(l.key)).length;
-        }
-
-        function updateGameState() {
-            renderDropZone();
-            renderPrompt();
-            renderProgressMarks();
-        }
-
-        function renderDropZone() {
-            dropZone.innerHTML = '';
-            LETTERS.forEach(l => {
-                const chosen = l.multi ? (picks[l.key] || []) : (picks[l.key] ? [picks[l.key]] : []);
-                if (chosen.length === 0) {
-                    const slot = document.createElement('div');
-                    slot.className = 'slot';
-                    slot.innerHTML = `<span class="ltr ltr-${l.key}">${l.key}</span> ${l.name}`;
-                    dropZone.appendChild(slot);
-                    return;
-                }
-                chosen.forEach(chip => {
-                    const el = document.createElement('div');
-                    el.className = 'prompt-component';
-                    el.dataset.category = l.category;
-                    el.innerHTML = `<span class="slot-letter">${l.key}</span><span></span>
-                        <button class="remove-btn" aria-label="Remove ${chip.label}"><i class="fas fa-times"></i></button>`;
-                    el.children[1].textContent = chip.label;
-                    el.querySelector('.remove-btn').addEventListener('click', () => removePick(l.key, chip));
-                    dropZone.appendChild(el);
-                });
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        trackEvent('pwa_service_worker_registered');
+                    })
+                    .catch(registrationError => {
+                        trackEvent('pwa_service_worker_failed');
+                    });
             });
         }
 
-        // Join the picks into one flowing description, in STAMPX reading order.
-        function buildPromptParts() {
-            const parts = [];
-            const add = (key, text) => parts.push({ key, text });
-            if (picks.S) add('S', picks.S.value);
-            if (picks.A) add('A', (picks.S ? ' ' : '') + picks.A.value);
-            if (picks.T) add('T', (parts.length ? ', in ' : 'In ') + picks.T.value);
-            if (parts.length) parts.push({ text: '. ' });
-            if (picks.M) add('M', capitalise(picks.M.value));
-            if (picks.P) add('P', (picks.M ? ', ' : '') + (picks.M ? picks.P.value : capitalise(picks.P.value)));
-            if (picks.M || picks.P) parts.push({ text: '. ' });
-            if (picks.X && picks.X.length) {
-                add('X', capitalise(picks.X.map(c => c.value).join(', ')));
-                parts.push({ text: '.' });
-            }
-            return parts;
-        }
-
-        function capitalise(text) {
-            return text.charAt(0).toUpperCase() + text.slice(1);
-        }
-
-        // Fallback when the AI is unavailable: the STAMPX parts joined in order,
-        // each underlined in its letter's colour.
-        function renderLocalPrompt(parts) {
-            promptDisplay.innerHTML = '';
-            promptDisplay.appendChild(document.createTextNode('Generate an image: '));
-            parts.forEach(p => {
-                if (!p.key) {
-                    promptDisplay.appendChild(document.createTextNode(p.text));
-                    return;
-                }
-                // Keep leading joiners (", in ") outside the underline
-                const lead = p.text.match(/^[ ,]*(?:in )?/i)[0];
-                if (lead) promptDisplay.appendChild(document.createTextNode(lead));
-                const span = document.createElement('span');
-                span.className = `part part-${p.key}`;
-                span.title = LETTER_BY_KEY[p.key].name;
-                span.textContent = p.text.slice(lead.length);
-                promptDisplay.appendChild(span);
-            });
-        }
-
-        // Same AI endpoint as the builder. Rapid taps are batched into one call,
-        // and only the newest reply is shown.
-        let enhanceTimer = null;
-        let enhanceRequest = 0;
-
-        function scheduleEnhance(parts) {
-            clearTimeout(enhanceTimer);
-            const requestId = ++enhanceRequest;
-            promptDisplay.classList.add('loading');
-            promptDisplay.textContent = 'Generating enhanced prompt...';
-            enhanceTimer = setTimeout(() => enhancePrompt(parts, requestId), 600);
-        }
-
-        async function enhancePrompt(parts, requestId) {
-            const components = LETTERS.flatMap(l => {
-                const pick = picks[l.key];
-                const chosen = Array.isArray(pick) ? pick : (pick ? [pick] : []);
-                return chosen.map(c => ({ category: `${l.key}: ${l.name}`, value: c.value }));
-            });
-
-            let prompt = null;
-            try {
-                const response = await fetch('/api/generate-prompt', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ components, format: 'stampx' })
-                });
-                const data = await response.json();
-                if (!response.ok || !data.prompt) throw new Error(data.error || 'No prompt returned');
-                prompt = data.prompt.startsWith('Generate an image:') ? data.prompt : `Generate an image: ${data.prompt}`;
-            } catch (error) {
-                console.error('Prompt generation failed:', error);
-            }
-
-            if (requestId !== enhanceRequest) return; // a newer pick is on its way
-            promptDisplay.classList.remove('loading');
-            if (prompt) {
-                promptDisplay.textContent = prompt;
-                trackEvent('stampx_prompt_enhanced', { letters: filledCount() });
-            } else {
-                renderLocalPrompt(parts);
-            }
-        }
-
-        function renderPrompt() {
-            const parts = buildPromptParts();
-            const missing = LETTERS.filter(l => !isFilled(l.key));
-
-            if (parts.length === 0) {
-                clearTimeout(enhanceTimer);
-                enhanceRequest++;
-                promptDisplay.classList.remove('loading');
-                promptDisplay.textContent = 'Your STAMPX prompt will appear here...';
-                promptDisplay.classList.add('empty');
-            } else {
-                promptDisplay.classList.remove('empty');
-                scheduleEnhance(parts);
-            }
-
-            if (missing.length === 0) {
-                missingHint.textContent = '🏆 All six letters! Copy the prompt and paste it into ChatGPT or Gemini.';
-                missingHint.classList.add('complete');
-            } else {
-                missingHint.classList.remove('complete');
-                missingHint.textContent = missing.length === LETTERS.length
-                    ? ''
-                    : `Still missing: ${missing.map(l => `${l.key} (${l.name})`).join(', ')}. Without ${missing.length > 1 ? 'them' : 'it'}, the AI guesses.`;
-            }
-        }
-
-        function renderProgressMarks() {
-            LETTERS.forEach(l => {
-                const filled = isFilled(l.key);
-                document.querySelector(`.workflow-step[data-letter="${l.key}"]`).classList.toggle('done', filled);
-                document.querySelector(`.component-section[data-letter="${l.key}"]`).classList.toggle('filled', filled);
-            });
-            document.querySelectorAll('.component-item').forEach(el => {
-                const { letter, chip } = chipFrom(el);
-                const pick = picks[letter.key];
-                const picked = Array.isArray(pick) ? pick.includes(chip) : pick === chip;
-                el.classList.toggle('picked', picked);
-            });
-        }
-
-        // ===== Build mode =====
-        function addPick(letter, chip) {
-            const wasFilled = isFilled(letter.key);
-            const before = filledCount();
-
-            if (letter.multi) {
-                const list = picks[letter.key] || [];
-                if (list.includes(chip)) {
-                    showNotification('Already added', 'warning');
-                    return;
-                }
-                picks[letter.key] = [...list, chip];
-            } else if (picks[letter.key] === chip) {
-                showNotification('Already added', 'warning');
-                return;
-            } else {
-                picks[letter.key] = chip;
-            }
-
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DOM elements
+            dropZone = document.getElementById('dropZone');
+            promptDisplay = document.getElementById('promptDisplay');
+            copyButton = document.getElementById('copyButton');
+            clearAllButton = document.getElementById('clearAllButton');
+            
+            initAudio();
+            createParticles();
+            initializeDragAndDrop();
+            setupEventListeners();
             updateGameState();
-            playSuccessSound();
-
-            if (!wasFilled) {
-                showNotification(`${letter.key} · ${letter.name} done!`, 'success');
-            } else if (!letter.multi) {
-                showNotification(`${letter.key} swapped. One choice per letter.`, 'info');
-            } else {
-                showNotification(`${letter.key} · ${chip.label} added`, 'success');
-            }
-
-            if (before < LETTERS.length && filledCount() === LETTERS.length) {
-                celebrate();
-                showNotification('Full STAMPX prompt! 🎉', 'success');
-                trackEvent('stampx_prompt_completed');
-            }
-
-            trackEvent('stampx_chip_added', { letter: letter.key, value: chip.value });
-        }
-
-        function removePick(key, chip) {
-            if (LETTER_BY_KEY[key].multi) {
-                picks[key] = (picks[key] || []).filter(c => c !== chip);
-            } else {
-                delete picks[key];
-            }
-            updateGameState();
-            showNotification('Removed', 'info');
-        }
-
-        function clearAll() {
-            if (filledCount() === 0) {
-                showNotification('Nothing to clear yet!', 'info');
-                return;
-            }
-            playClearSound();
-            picks = {};
-            updateGameState();
-            showNotification('All cleared. Try a new combination!', 'success');
-            trackEvent('stampx_cleared');
-        }
-
-        function initializeChips() {
-            document.querySelectorAll('.component-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    const { letter, chip } = chipFrom(this);
-                    playSound(letter.category);
-                    addPick(letter, chip);
-                    this.style.transform = 'scale(0.9) rotate(-5deg)';
-                    setTimeout(() => { this.style.transform = ''; }, 200);
-                });
-                item.addEventListener('dragstart', function (e) {
-                    e.dataTransfer.setData('text/plain', JSON.stringify({ letter: this.dataset.letter, index: this.dataset.index }));
-                    this.style.opacity = '0.5';
-                    playSound(this.dataset.category);
-                });
-                item.addEventListener('dragend', function () {
-                    this.style.opacity = '1';
-                });
+            
+            // Track app initialization
+            trackEvent('app_initialized', {
+                'user_agent': navigator.userAgent,
+                'screen_resolution': screen.width + 'x' + screen.height,
+                'viewport_size': window.innerWidth + 'x' + window.innerHeight
             });
+        });
 
-            dropZone.addEventListener('dragover', e => e.preventDefault());
-            dropZone.addEventListener('dragenter', e => {
-                e.preventDefault();
-                dropZone.classList.add('drag-over');
-            });
-            dropZone.addEventListener('dragleave', e => {
-                if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('drag-over');
-            });
-            dropZone.addEventListener('drop', e => {
-                e.preventDefault();
-                dropZone.classList.remove('drag-over');
-                try {
-                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-                    const letter = LETTER_BY_KEY[data.letter];
-                    if (letter) addPick(letter, letter.chips[Number(data.index)]);
-                } catch (err) { /* not one of our chips */ }
-            });
-        }
-
-        // ===== Copy =====
-        function copyPrompt() {
-            const text = promptDisplay.textContent.trim();
-            if (promptDisplay.classList.contains('empty') || !text) {
-                showNotification('No prompt yet! Tap a chip in each box first.', 'warning');
-                return;
-            }
-            if (promptDisplay.classList.contains('loading')) {
-                showNotification('Still writing your prompt. One moment!', 'warning');
-                return;
-            }
-            const done = () => {
-                showNotification('Prompt copied to clipboard!', 'success');
-                copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => { copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt'; }, 2000);
-                trackEvent('stampx_prompt_copied', { letters: filledCount() });
-            };
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-            } else {
-                fallbackCopy(text, done);
-            }
-        }
-
-        function fallbackCopy(text, done) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                if (document.execCommand('copy')) done();
-                else throw new Error('copy failed');
-            } catch (err) {
-                showNotification('Copy failed. Please select and copy the prompt manually.', 'error');
-            }
-            document.body.removeChild(textArea);
-        }
-
-        // ===== Effects =====
-        function celebrate() {
-            const colours = ['#10b981', '#ef4444', '#06b6d4', '#14b8a6', '#f59e0b', '#8b5cf6', '#ffffff'];
-            for (let i = 0; i < 40; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'burst';
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 150 + Math.random() * 250;
-                piece.style.background = colours[i % colours.length];
-                piece.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
-                piece.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
-                document.body.appendChild(piece);
-                setTimeout(() => piece.remove(), 1300);
-            }
-        }
-
+        // Create animated background particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const shapes = ['circle', 'square', 'triangle', 'diamond'];
+            
             for (let i = 0; i < 20; i++) {
                 const particle = document.createElement('div');
                 const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                
                 particle.className = `particle ${shape}`;
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
+                
+                // Different sizing for different shapes
                 if (shape === 'triangle') {
+                    // Triangles are sized via border, no width/height needed
                     const size = Math.random() * 3 + 2;
                     particle.style.borderLeftWidth = size + 'px';
                     particle.style.borderRightWidth = size + 'px';
@@ -2425,10 +1942,452 @@
                     particle.style.width = size + 'px';
                     particle.style.height = size + 'px';
                 }
+                
                 particle.style.animationDelay = Math.random() * 12 + 's';
                 particle.style.animationDuration = (Math.random() * 5 + 10) + 's';
                 particlesContainer.appendChild(particle);
             }
+        }
+
+        function initializeDragAndDrop() {
+            const componentItems = document.querySelectorAll('.component-item');
+            
+            componentItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('click', handleClick);
+            });
+
+            if (dropZone) {
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragenter', handleDragEnter);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+            }
+        }
+
+        function handleDragStart(e) {
+            const data = {
+                category: this.dataset.category,
+                value: this.dataset.value,
+                text: this.textContent.trim()
+            };
+            
+            e.dataTransfer.setData('text/plain', JSON.stringify(data));
+            this.style.opacity = '0.5';
+            
+            // Play category sound
+            playSound(data.category);
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            if (!dropZone.contains(e.relatedTarget)) {
+                dropZone.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+            
+            // Track component drag & drop
+            trackEvent('component_dropped', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'interaction_type': 'drag_drop'
+            });
+            
+            addComponent(data);
+        }
+
+        function handleClick(e) {
+            const data = {
+                category: this.dataset.category,
+                value: this.dataset.value,
+                text: this.textContent.trim()
+            };
+            
+            // Play category sound
+            playSound(data.category);
+            
+            addComponent(data);
+            
+            // Track component click
+            trackEvent('component_clicked', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'interaction_type': 'click'
+            });
+            
+            // Enhanced visual feedback for click
+            this.style.transform = 'scale(0.9) rotate(-5deg)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        }
+
+        async function addComponent(data) {
+            // Check if component already exists
+            const exists = promptComponents.some(comp => comp.value === data.value);
+            if (exists) {
+                showNotification('Component already added', 'warning');
+                return;
+            }
+
+            promptComponents.push(data);
+            await updateGameState();
+            showNotification('Component added', 'success');
+            
+            // Track component added
+            trackEvent('component_added', {
+                'component_category': data.category,
+                'component_value': data.value,
+                'total_components': promptComponents.length
+            });
+            
+            // Play success sound when component is successfully added
+            playSuccessSound();
+        }
+
+        async function updateGameState() {
+            updateDropZone();
+            await updatePromptDisplay();
+        }
+
+        function updateDropZone() {
+            dropZone.classList.remove('empty');
+            dropZone.innerHTML = '';
+
+            promptComponents.forEach((component, index) => {
+                const componentElement = document.createElement('div');
+                componentElement.className = 'prompt-component';
+                componentElement.setAttribute('data-category', component.category);
+                componentElement.innerHTML = `
+                    <span>${component.text}</span>
+                    <button class="remove-btn" onclick="removeComponent(${index})" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                dropZone.appendChild(componentElement);
+            });
+
+            if (promptComponents.length === 0) {
+                dropZone.classList.add('empty');
+            }
+        }
+
+        async function removeComponent(index) {
+            promptComponents.splice(index, 1);
+            await updateGameState();
+            showNotification('Component removed', 'info');
+        }
+
+        async function updatePromptDisplay() {
+            if (promptComponents.length === 0) {
+                promptDisplay.textContent = 'Your enhanced AI prompt will appear here...';
+                promptDisplay.classList.add('empty');
+                return;
+            }
+
+            promptDisplay.classList.remove('empty');
+            
+            // Capture existing prompt content before overwriting
+            const existingContent = promptDisplay.textContent.trim();
+            promptDisplay.textContent = 'Generating enhanced prompt...';
+            
+            try {
+                const enhancedPrompt = await generateEnhancedPrompt(existingContent);
+                
+                // Ensure the prompt starts with "Generate an image:" for compatibility
+                const finalPrompt = enhancedPrompt.startsWith('Generate an image:') 
+                    ? enhancedPrompt 
+                    : `Generate an image: ${enhancedPrompt}`;
+                
+                promptDisplay.textContent = finalPrompt;
+            } catch (error) {
+                console.error('Prompt generation failed:', error);
+                // Fallback to enhanced basic prompt
+                const basicPrompt = createBasicEnhancedPrompt();
+                promptDisplay.textContent = basicPrompt;
+            }
+        }
+        
+        function createBasicEnhancedPrompt() {
+            // Create a readable prompt without API call
+            const subjects = promptComponents.filter(c => c.category === 'subject');
+            const actions = promptComponents.filter(c => c.category === 'actions');
+            const styles = promptComponents.filter(c => c.category === 'style');
+            const lighting = promptComponents.filter(c => c.category === 'lighting');
+            const technical = promptComponents.filter(c => c.category === 'technical');
+            
+            let prompt = '';
+            
+            // Build a natural sentence
+            if (subjects.length > 0) {
+                prompt += subjects[0].value;
+            }
+            
+            if (actions.length > 0) {
+                prompt += ' ' + actions[0].value;
+            }
+            
+            if (subjects.length === 0 && actions.length === 0) {
+                prompt = 'an image';
+            }
+            
+            if (styles.length > 0) {
+                prompt += ', ' + styles[0].value;
+            }
+            
+            if (lighting.length > 0) {
+                prompt += ', ' + lighting[0].value;
+            }
+            
+            if (technical.length > 0) {
+                prompt += ', ' + technical[0].value;
+            }
+            
+            // Add any remaining components
+            const remaining = promptComponents.filter(c => 
+                !subjects.includes(c) && !actions.includes(c) && 
+                !styles.includes(c) && !lighting.includes(c) && !technical.includes(c)
+            );
+            
+            if (remaining.length > 0) {
+                prompt += ', ' + remaining.map(c => c.value).join(', ');
+            }
+            
+            // Add the universal AI instruction prefix
+            const finalPrompt = prompt || 'an image with your selected components';
+            return `Generate an image: ${finalPrompt}`;
+        }
+        
+        async function generateEnhancedPrompt(existingPrompt = null) {
+            const components = promptComponents.map(comp => ({
+                category: comp.category,
+                value: comp.value
+            }));
+            
+            // Use Vercel serverless function for secure API calls
+            const apiUrl = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+                ? 'http://localhost:3000/api/generate-prompt'  // Local development
+                : '/api/generate-prompt';  // Production (Vercel)
+            
+            const requestBody = { components };
+            
+            // Include existing prompt if provided and it's not a placeholder
+            if (existingPrompt && 
+                existingPrompt.trim() !== '' && 
+                existingPrompt !== 'Your enhanced AI prompt will appear here...' &&
+                existingPrompt !== 'Generating enhanced prompt...') {
+                requestBody.existingPrompt = existingPrompt;
+            }
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            const data = await response.json();
+            
+            // Check for API errors
+            if (!response.ok) {
+                console.error('API Error:', data);
+                throw new Error(`API Error: ${data.error || 'Unknown error'}`);
+            }
+            
+            if (!data.prompt) {
+                console.error('Invalid response structure:', data);
+                throw new Error('Invalid response from prompt generation API');
+            }
+            
+            return data.prompt;
+        }
+
+
+        function setupEventListeners() {
+            if (copyButton) {
+                copyButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    copyPromptToClipboard();
+                });
+            }
+            
+            if (clearAllButton) {
+                clearAllButton.addEventListener('click', clearAllComponents);
+            }
+            
+            // Handle prompt editing
+            if (promptDisplay) {
+                promptDisplay.addEventListener('input', function() {
+                    // Track that user has edited the prompt
+                    trackEvent('prompt_manually_edited', {
+                        'prompt_length': promptDisplay.textContent.trim().length,
+                        'components_count': promptComponents.length
+                    });
+                });
+                
+                // Clear placeholder text when user starts editing
+                promptDisplay.addEventListener('focus', function() {
+                    if (promptDisplay.textContent.trim() === 'Your enhanced AI prompt will appear here...') {
+                        promptDisplay.textContent = '';
+                        promptDisplay.classList.remove('empty');
+                    }
+                });
+                
+                // Restore placeholder if empty
+                promptDisplay.addEventListener('blur', function() {
+                    if (promptDisplay.textContent.trim() === '') {
+                        promptDisplay.textContent = 'Your enhanced AI prompt will appear here...';
+                        promptDisplay.classList.add('empty');
+                    }
+                });
+            }
+            
+            // Enable audio context on first user interaction
+            document.addEventListener('click', function enableAudio() {
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }, { once: true });
+        }
+
+        function copyPromptToClipboard() {
+            const promptText = promptDisplay.textContent.trim();
+            
+            // Check if there's actual content to copy
+            if (!promptText || 
+                promptText === 'Your enhanced AI prompt will appear here...' || 
+                promptText === 'Generating enhanced prompt...') {
+                showNotification('No prompt to copy yet! Add some components first.', 'warning');
+                return;
+            }
+            
+            // Track copy attempt
+            trackEvent('copy_prompt_attempted', {
+                'prompt_length': promptText.length,
+                'components_count': promptComponents.length
+            });
+            
+            // Try modern clipboard API first (requires HTTPS or localhost)
+            if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    showNotification('Prompt copied to clipboard!', 'success');
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt';
+                    }, 2000);
+                    
+                    // Track successful copy
+                    trackEvent('prompt_copied', {
+                        'method': 'clipboard_api',
+                        'prompt_length': promptText.length
+                    });
+                }).catch(err => {
+                    console.error('Clipboard API failed:', err);
+                    fallbackCopyTextToClipboard(promptText);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(promptText);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            
+            // Avoid scrolling to bottom
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showNotification('Prompt copied to clipboard!', 'success');
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt';
+                    }, 2000);
+                    
+                    // Track successful fallback copy
+                    trackEvent('prompt_copied', {
+                        'method': 'fallback_execcommand',
+                        'prompt_length': text.length
+                    });
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                showNotification('Copy failed. Please select and copy the prompt manually.', 'error');
+                // Select the prompt text for manual copying
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(promptDisplay);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        async function clearAllComponents() {
+            if (promptComponents.length === 0) {
+                showNotification('Drop zone is already empty!', 'info');
+                return;
+            }
+            
+            // Show confirmation dialog
+            const confirmed = confirm(`Are you sure you want to clear all ${promptComponents.length} component${promptComponents.length === 1 ? '' : 's'} from the drop zone?\n\nThis action cannot be undone.`);
+            
+            if (!confirmed) {
+                return;
+            }
+            
+            const previousCount = promptComponents.length;
+            
+            // Play clear sound
+            playClearSound();
+            
+            promptComponents = [];
+            await updateGameState();
+            showNotification('All components cleared!', 'success');
+            
+            // Track clear all action
+            trackEvent('components_cleared', {
+                'cleared_count': previousCount
+            });
+        }
+
+        async function resetGame() {
+            promptComponents = [];
+            await updateGameState();
+            showNotification('Game reset', 'info');
         }
 
         function showNotification(message, type = 'success') {
@@ -2436,56 +2395,46 @@
             notification.className = `notification ${type}`;
             notification.textContent = message;
             document.body.appendChild(notification);
-            setTimeout(() => notification.classList.add('show'), 100);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => notification.remove(), 400);
             }, 3000);
         }
 
+        // Dynamic Tooltip System
         function initializeTooltips() {
             const tooltip = document.getElementById('dynamicTooltip');
-            document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
-                trigger.addEventListener('mouseenter', function () {
-                    tooltip.textContent = this.getAttribute('data-tooltip');
+            const triggers = document.querySelectorAll('.tooltip-trigger');
+
+            triggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', function(e) {
+                    const tooltipText = this.getAttribute('data-tooltip');
+                    tooltip.textContent = tooltipText;
                     tooltip.classList.add('show');
                 });
-                trigger.addEventListener('mousemove', function (e) {
-                    tooltip.style.left = e.clientX + 'px';
-                    tooltip.style.top = e.clientY + 'px';
+
+                trigger.addEventListener('mousemove', function(e) {
+                    if (tooltip.classList.contains('show')) {
+                        // Position tooltip at mouse cursor (top-left corner)
+                        tooltip.style.left = e.clientX + 'px';
+                        tooltip.style.top = e.clientY + 'px';
+                    }
                 });
-                trigger.addEventListener('mouseleave', function () {
+
+                trigger.addEventListener('mouseleave', function() {
                     tooltip.classList.remove('show');
                 });
             });
         }
 
-        // ===== Start =====
-        document.addEventListener('DOMContentLoaded', function () {
-            dropZone = document.getElementById('dropZone');
-            promptDisplay = document.getElementById('promptDisplay');
-            missingHint = document.getElementById('missingHint');
-            copyButton = document.getElementById('copyButton');
-            clearAllButton = document.getElementById('clearAllButton');
-
-            initAudio();
-            createParticles();
-            renderGuide();
-            renderGrid();
-            initializeChips();
+        // Initialize tooltips when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
             initializeTooltips();
-            updateGameState();
-
-            copyButton.addEventListener('click', copyPrompt);
-            clearAllButton.addEventListener('click', clearAll);
-            document.addEventListener('click', function enableAudio() {
-                if (audioContext && audioContext.state === 'suspended') audioContext.resume();
-            }, { once: true });
-
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch(() => {});
-            }
-            trackEvent('stampx_page_loaded');
         });
     </script>
     <!-- Dynamic Tooltip -->
