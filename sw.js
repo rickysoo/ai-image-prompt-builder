@@ -1,10 +1,10 @@
-const CACHE_NAME = 'ai-prompt-builder-v1.0.0';
+const CACHE_NAME = 'ai-prompt-builder-v1.0.1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
+  '/icon-192.svg',
+  '/icon-512.svg',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
@@ -95,8 +95,8 @@ self.addEventListener('push', event => {
   if (event.data) {
     const options = {
       body: event.data.text(),
-      icon: '/icon-192.png',
-      badge: '/icon-192.png',
+      icon: '/icon-192.svg',
+      badge: '/icon-192.svg',
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now()
