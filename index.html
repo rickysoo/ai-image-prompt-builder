@@ -1966,7 +1966,6 @@
                 key: 'X', name: 'eXclusions', category: 'exclusions', section: 'technical-section',
                 hint: 'What must not appear.',
                 tooltip: 'X, eXclusions: what must NOT appear. Pick as many as you need.',
-                multi: true,
                 chips: [
                     { label: 'No text', icon: 'fa-ban', value: 'no text' },
                     { label: 'No watermark', icon: 'fa-ban', value: 'no watermark' },
@@ -1981,7 +1980,7 @@
         const LETTER_BY_KEY = Object.fromEntries(LETTERS.map(l => [l.key, l]));
 
         // ===== State =====
-        // picks: { S: chip, T: chip, ..., X: [chip, ...] }
+        // picks: { S: [chip, ...], T: [chip, ...], ..., X: [chip, ...] }
         let picks = {};
 
         let dropZone, promptDisplay, missingHint, copyButton, clearAllButton;
@@ -2069,7 +2068,7 @@
                 <div class="component-section ${l.section} tooltip-trigger" data-letter="${l.key}" data-tooltip="${l.tooltip}">
                     <i class="fas fa-check-circle done-tick"></i>
                     <h3 class="section-title"><span class="ltr ltr-${l.key}">${l.key}</span> ${l.name}</h3>
-                    <p class="letter-hint">${l.hint}${l.multi ? ' <em>Pick several.</em>' : ''}</p>
+                    <p class="letter-hint">${l.hint} <em>Pick one or more.</em></p>
                     <div class="component-list">
                         ${l.chips.map((c, i) => `
                             <div class="component-item" data-letter="${l.key}" data-index="${i}" data-category="${l.category}" draggable="true">
@@ -2085,9 +2084,12 @@
             return { letter, chip: letter.chips[Number(el.dataset.index)] };
         }
 
+        function picksFor(key) {
+            return picks[key] || [];
+        }
+
         function isFilled(key) {
-            const pick = picks[key];
-            return Array.isArray(pick) ? pick.length > 0 : Boolean(pick);
+            return picksFor(key).length > 0;
         }
 
         function filledCount() {
@@ -2103,7 +2105,7 @@
         function renderDropZone() {
             dropZone.innerHTML = '';
             LETTERS.forEach(l => {
-                const chosen = l.multi ? (picks[l.key] || []) : (picks[l.key] ? [picks[l.key]] : []);
+                const chosen = picksFor(l.key);
                 if (chosen.length === 0) {
                     const slot = document.createElement('div');
                     slot.className = 'slot';
@@ -2125,21 +2127,30 @@
         }
 
         // Join the picks into one flowing description, in STAMPX reading order.
+        // Several picks for one letter read as a list: "a, b and c".
         function buildPromptParts() {
             const parts = [];
             const add = (key, text) => parts.push({ key, text });
-            if (picks.S) add('S', picks.S.value);
-            if (picks.A) add('A', (picks.S ? ' ' : '') + picks.A.value);
-            if (picks.T) add('T', (parts.length ? ', in ' : 'In ') + picks.T.value);
+            const S = joinValues('S'), T = joinValues('T'), A = joinValues('A');
+            const M = joinValues('M'), P = joinValues('P');
+            if (S) add('S', S);
+            if (A) add('A', (S ? ' ' : '') + A);
+            if (T) add('T', (parts.length ? ', in ' : 'In ') + T);
             if (parts.length) parts.push({ text: '. ' });
-            if (picks.M) add('M', capitalise(picks.M.value));
-            if (picks.P) add('P', (picks.M ? ', ' : '') + (picks.M ? picks.P.value : capitalise(picks.P.value)));
-            if (picks.M || picks.P) parts.push({ text: '. ' });
-            if (picks.X && picks.X.length) {
-                add('X', capitalise(picks.X.map(c => c.value).join(', ')));
+            if (M) add('M', capitalise(M));
+            if (P) add('P', M ? ', ' + P : capitalise(P));
+            if (M || P) parts.push({ text: '. ' });
+            if (isFilled('X')) {
+                add('X', capitalise(picksFor('X').map(c => c.value).join(', ')));
                 parts.push({ text: '.' });
             }
             return parts;
+        }
+
+        function joinValues(key) {
+            const values = picksFor(key).map(c => c.value);
+            if (values.length < 2) return values[0] || '';
+            return `${values.slice(0, -1).join(', ')} and ${values[values.length - 1]}`;
         }
 
         function capitalise(text) {
@@ -2181,11 +2192,9 @@
         }
 
         async function enhancePrompt(parts, requestId) {
-            const components = LETTERS.flatMap(l => {
-                const pick = picks[l.key];
-                const chosen = Array.isArray(pick) ? pick : (pick ? [pick] : []);
-                return chosen.map(c => ({ category: `${l.key}: ${l.name}`, value: c.value }));
-            });
+            const components = LETTERS.flatMap(l =>
+                picksFor(l.key).map(c => ({ category: `${l.key}: ${l.name}`, value: c.value }))
+            );
 
             let prompt = null;
             try {
@@ -2245,9 +2254,7 @@
             });
             document.querySelectorAll('.component-item').forEach(el => {
                 const { letter, chip } = chipFrom(el);
-                const pick = picks[letter.key];
-                const picked = Array.isArray(pick) ? pick.includes(chip) : pick === chip;
-                el.classList.toggle('picked', picked);
+                el.classList.toggle('picked', picksFor(letter.key).includes(chip));
             });
         }
 
@@ -2256,27 +2263,18 @@
             const wasFilled = isFilled(letter.key);
             const before = filledCount();
 
-            if (letter.multi) {
-                const list = picks[letter.key] || [];
-                if (list.includes(chip)) {
-                    showNotification('Already added', 'warning');
-                    return;
-                }
-                picks[letter.key] = [...list, chip];
-            } else if (picks[letter.key] === chip) {
+            const list = picksFor(letter.key);
+            if (list.includes(chip)) {
                 showNotification('Already added', 'warning');
                 return;
-            } else {
-                picks[letter.key] = chip;
             }
+            picks[letter.key] = [...list, chip];
 
             updateGameState();
             playSuccessSound();
 
             if (!wasFilled) {
                 showNotification(`${letter.key} · ${letter.name} done!`, 'success');
-            } else if (!letter.multi) {
-                showNotification(`${letter.key} swapped. One choice per letter.`, 'info');
             } else {
                 showNotification(`${letter.key} · ${chip.label} added`, 'success');
             }
@@ -2291,11 +2289,7 @@
         }
 
         function removePick(key, chip) {
-            if (LETTER_BY_KEY[key].multi) {
-                picks[key] = (picks[key] || []).filter(c => c !== chip);
-            } else {
-                delete picks[key];
-            }
+            picks[key] = picksFor(key).filter(c => c !== chip);
             updateGameState();
             showNotification('Removed', 'info');
         }
