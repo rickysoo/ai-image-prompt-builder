@@ -2182,7 +2182,7 @@
             clearTimeout(enhanceTimer);
             const requestId = ++enhanceRequest;
             promptDisplay.classList.add('loading');
-            promptDisplay.textContent = 'Generating prompt';
+            promptDisplay.textContent = 'Generating prompt...';
             enhanceTimer = setTimeout(() => enhancePrompt(parts, requestId), 600);
         }
 
