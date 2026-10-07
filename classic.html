@@ -2108,7 +2108,7 @@
             
             // Capture existing prompt content before overwriting
             const existingContent = promptDisplay.textContent.trim();
-            promptDisplay.textContent = 'Generating enhanced prompt...';
+            promptDisplay.textContent = 'Generating prompt...';
             
             try {
                 const enhancedPrompt = await generateEnhancedPrompt(existingContent);
@@ -2194,7 +2194,7 @@
             if (existingPrompt && 
                 existingPrompt.trim() !== '' && 
                 existingPrompt !== 'Your enhanced AI prompt will appear here...' &&
-                existingPrompt !== 'Generating enhanced prompt...') {
+                existingPrompt !== 'Generating prompt...') {
                 requestBody.existingPrompt = existingPrompt;
             }
             
@@ -2276,7 +2276,7 @@
             // Check if there's actual content to copy
             if (!promptText || 
                 promptText === 'Your enhanced AI prompt will appear here...' || 
-                promptText === 'Generating enhanced prompt...') {
+                promptText === 'Generating prompt...') {
                 showNotification('No prompt to copy yet! Add some components first.', 'warning');
                 return;
             }
