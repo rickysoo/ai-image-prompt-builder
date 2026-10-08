@@ -1823,7 +1823,29 @@
             .burst { display: none; }
         }
 
+        /* Credit for the STAMPX framework, in the header's empty top-left corner */
+        .credit {
+            position: absolute;
+            top: 0.6rem;
+            left: 0.9rem;
+            margin: 0;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 5;
+        }
+
+        .credit strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
+            .credit {
+                position: static;
+                text-align: center;
+                margin-bottom: 0.4rem;
+            }
+
             .stampx-grid {
                 grid-template-areas:
                     "subjects"
@@ -1848,6 +1870,8 @@
 
     <div class="app-container">
         <!-- Header -->
+        <p class="credit">Concept by <strong>Koh Li Hong</strong></p>
+
         <div class="header stampx-header">
             <h1 class="title">
                 <div class="app-logo"></div>
