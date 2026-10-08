@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Prompting with STAMPX</title>
-    <meta name="description" content="Learn the STAMPX formula for AI image prompts: Subject, Tone and Lighting, Action, Mode and Framing, Photo Style and eXclusions. Pick a chip for each letter and watch your prompt build itself.">
+    <meta name="description" content="Learn the STAMPX formula for AI image prompts: Subject, Task/Action, Aesthetic/Style, Mood and Lighting, Perspective and Framing, and eXclusions. Pick the chips that matter and watch your prompt build itself.">
     <meta name="theme-color" content="#1e3c72">
     <link rel="manifest" href="manifest.json">
     <meta property="og:title" content="Image Prompting with STAMPX">
@@ -1447,8 +1447,8 @@
         /* Sections in STAMPX order: S T A / M P X */
         .stampx-grid {
             grid-template-areas:
-                "subjects lighting actions"
-                "framing styles technical";
+                "subjects actions styles"
+                "lighting framing technical";
         }
 
         .stampx-header .subtitle-container {
@@ -1472,10 +1472,10 @@
         }
 
         .ltr-S { color: #6ee7b7; }
-        .ltr-T { color: #fca5a5; }
-        .ltr-A { color: #67e8f9; }
-        .ltr-M { color: #5eead4; }
-        .ltr-P { color: #fcd34d; }
+        .ltr-T { color: #67e8f9; }
+        .ltr-A { color: #fcd34d; }
+        .ltr-M { color: #fca5a5; }
+        .ltr-P { color: #5eead4; }
         .ltr-X { color: #c4b5fd; }
 
         .section-title .ltr {
@@ -1534,7 +1534,7 @@
         }
 
         .stampx-grid .component-list {
-            gap: 0.4rem;
+            gap: 0.35rem;
         }
 
         .workspace {
@@ -1600,8 +1600,8 @@
             }
 
             .stampx-grid .component-item {
-                font-size: clamp(0.75rem, 1.85vh, 1.05rem);
-                padding: clamp(0.4rem, 1.1vh, 0.7rem) clamp(0.6rem, 1.4vh, 1rem);
+                font-size: clamp(0.75rem, 1.55vh, 1rem);
+                padding: clamp(0.35rem, 0.75vh, 0.6rem) clamp(0.6rem, 1.2vh, 0.9rem);
             }
 
             .drop-zone.slots,
@@ -1621,10 +1621,10 @@
             animation: none;
         }
         .stampx-grid .subjects-section::before { content: 'S'; }
-        .stampx-grid .lighting-section::before { content: 'T'; }
-        .stampx-grid .actions-section::before { content: 'A'; }
-        .stampx-grid .framing-section::before { content: 'M'; }
-        .stampx-grid .styles-section::before { content: 'P'; }
+        .stampx-grid .lighting-section::before { content: 'M'; }
+        .stampx-grid .actions-section::before { content: 'T'; }
+        .stampx-grid .framing-section::before { content: 'P'; }
+        .stampx-grid .styles-section::before { content: 'A'; }
         .stampx-grid .technical-section::before { content: 'X'; }
 
         .letter-hint {
@@ -1729,10 +1729,10 @@
         }
 
         .workflow-step[data-letter="S"] { --letter-color: #6ee7b7; }
-        .workflow-step[data-letter="T"] { --letter-color: #fca5a5; }
-        .workflow-step[data-letter="A"] { --letter-color: #67e8f9; }
-        .workflow-step[data-letter="M"] { --letter-color: #5eead4; }
-        .workflow-step[data-letter="P"] { --letter-color: #fcd34d; }
+        .workflow-step[data-letter="T"] { --letter-color: #67e8f9; }
+        .workflow-step[data-letter="A"] { --letter-color: #fcd34d; }
+        .workflow-step[data-letter="M"] { --letter-color: #fca5a5; }
+        .workflow-step[data-letter="P"] { --letter-color: #5eead4; }
         .workflow-step[data-letter="X"] { --letter-color: #c4b5fd; }
 
         /* Drop zone shows six fixed slots */
@@ -1783,10 +1783,10 @@
             padding-bottom: 1px;
         }
         .prompt-display .part-S { border-color: #10b981; }
-        .prompt-display .part-T { border-color: #ef4444; }
-        .prompt-display .part-A { border-color: #06b6d4; }
-        .prompt-display .part-M { border-color: #14b8a6; }
-        .prompt-display .part-P { border-color: #f59e0b; }
+        .prompt-display .part-T { border-color: #06b6d4; }
+        .prompt-display .part-A { border-color: #f59e0b; }
+        .prompt-display .part-M { border-color: #ef4444; }
+        .prompt-display .part-P { border-color: #14b8a6; }
         .prompt-display .part-X { border-color: #8b5cf6; }
 
         .missing-hint {
@@ -1827,10 +1827,10 @@
             .stampx-grid {
                 grid-template-areas:
                     "subjects"
-                    "lighting"
                     "actions"
-                    "framing"
                     "styles"
+                    "lighting"
+                    "framing"
                     "technical";
             }
 
@@ -1894,80 +1894,99 @@
         const LETTERS = [
             {
                 key: 'S', name: 'Subject', category: 'subject', section: 'subjects-section',
-                hint: 'Who or what is in frame.',
-                tooltip: 'S, Subject: who or what is in the picture. Be specific: age, clothing, colour, breed.',
+                hint: 'Who or what is in the image.',
+                tooltip: 'S, Subject: who or what is in the image. People, objects, products, animals, places, key traits or appearance.',
                 chips: [
                     { label: 'Barista', icon: 'fa-coffee', value: 'A Malaysian barista in her 30s in a white apron' },
                     { label: 'Chef', icon: 'fa-utensils', value: 'A smiling chef in a crisp white uniform' },
+                    { label: 'Student', icon: 'fa-user-graduate', value: 'A university student with a canvas backpack' },
                     { label: 'Golden retriever', icon: 'fa-dog', value: 'A fluffy golden retriever' },
                     { label: 'Vintage car', icon: 'fa-car', value: 'A red 1960s vintage car' },
-                    { label: 'Mountain cabin', icon: 'fa-mountain', value: 'A small wooden cabin on a mountain' },
-                    { label: 'Coach', icon: 'fa-user-tie', value: 'A confident business coach in a navy blazer' }
+                    { label: 'Mountain range', icon: 'fa-mountain', value: 'A snow-capped mountain range' },
+                    { label: 'Skincare bottle', icon: 'fa-pump-soap', value: 'A frosted glass skincare bottle' },
+                    { label: 'Modern office', icon: 'fa-building', value: 'A bright modern open-plan office' }
                 ]
             },
             {
-                key: 'T', name: 'Tone & Lighting', category: 'lighting', section: 'lighting-section',
-                hint: 'The light and colour mood.',
-                tooltip: 'T, Tone & Lighting: the light and colour mood. Warm or cool, soft or dramatic.',
-                chips: [
-                    { label: 'Golden morning', icon: 'fa-sun', value: 'warm golden morning light' },
-                    { label: 'Soft studio', icon: 'fa-lightbulb', value: 'soft, even studio lighting' },
-                    { label: 'Moody shadows', icon: 'fa-adjust', value: 'moody, dramatic shadows' },
-                    { label: 'Neon night', icon: 'fa-bolt', value: 'vivid neon lights at night' },
-                    { label: 'Overcast', icon: 'fa-cloud', value: 'cool, soft overcast light' },
-                    { label: 'Sunset glow', icon: 'fa-cloud-sun', value: 'glowing orange sunset light' }
-                ]
-            },
-            {
-                key: 'A', name: 'Action', category: 'actions', section: 'actions-section',
-                hint: 'What is happening and where.',
-                tooltip: 'A, Action: what the subject is doing, and where it is happening.',
+                key: 'T', name: 'Task / Action', category: 'actions', section: 'actions-section',
+                hint: 'What is happening.',
+                tooltip: 'T, Task / Action: what is happening. Action, activity, interaction, pose, movement or situation.',
                 chips: [
                     { label: 'Pouring latte', icon: 'fa-mug-hot', value: 'pouring latte art at a wooden counter' },
-                    { label: 'Running', icon: 'fa-walking', value: 'running along a sandy beach' },
+                    { label: 'Running', icon: 'fa-running', value: 'running along a sandy beach' },
                     { label: 'Reading', icon: 'fa-book', value: 'reading a book in a cosy café' },
+                    { label: 'Presenting', icon: 'fa-users', value: 'presenting to a small team in a meeting room' },
+                    { label: 'Cooking', icon: 'fa-fire', value: 'stirring a pot over an open flame' },
+                    { label: 'Walking', icon: 'fa-walking', value: 'walking down a quiet tree-lined street' },
+                    { label: 'Holding product', icon: 'fa-hand-holding', value: 'holding the product up towards the camera' },
                     { label: 'Parked', icon: 'fa-road', value: 'parked on a quiet city street' },
-                    { label: 'Presenting', icon: 'fa-users', value: 'presenting to a small team in a bright meeting room' },
-                    { label: 'Cooking', icon: 'fa-fire', value: 'stirring a pot over an open flame' }
+                    { label: 'Looking at camera', icon: 'fa-eye', value: 'looking directly at the camera' }
                 ]
             },
             {
-                key: 'M', name: 'Mode & Framing', category: 'framing', section: 'framing-section',
-                hint: 'Where the camera sits.',
-                tooltip: 'M, Mode & Framing: where the camera sits. How close, and from which angle.',
+                key: 'A', name: 'Aesthetic / Style', category: 'style', section: 'styles-section',
+                hint: 'What kind of image it should look like.',
+                tooltip: 'A, Aesthetic / Style: what kind of image it should look like. Photography genre, visual treatment, illustration style or finish.',
                 chips: [
-                    { label: 'Close-up', icon: 'fa-search-plus', value: 'close-up shot' },
-                    { label: 'Medium, eye level', icon: 'fa-eye', value: 'medium shot, eye level' },
-                    { label: 'Wide shot', icon: 'fa-expand', value: 'wide shot' },
-                    { label: 'Low angle', icon: 'fa-angle-up', value: 'low angle looking up' },
-                    { label: "Bird's eye", icon: 'fa-angle-down', value: "bird's eye view from above" },
-                    { label: 'Over the shoulder', icon: 'fa-user', value: 'over-the-shoulder shot' }
-                ]
-            },
-            {
-                key: 'P', name: 'Photo Style', category: 'style', section: 'styles-section',
-                hint: 'What the picture looks like.',
-                tooltip: 'P, Photo Style: what the picture looks like. A real photo, a 3D cartoon, a painting, a sketch.',
-                chips: [
-                    { label: 'Photorealistic', icon: 'fa-camera', value: 'photorealistic, natural and inviting' },
-                    { label: 'Pixar 3D', icon: 'fa-cube', value: 'Pixar-style 3D animation' },
+                    { label: 'Photorealistic', icon: 'fa-camera', value: 'photorealistic, natural and unretouched' },
+                    { label: 'Candid', icon: 'fa-camera-retro', value: 'candid, unposed photo' },
+                    { label: 'Documentary', icon: 'fa-newspaper', value: 'documentary-style photo' },
+                    { label: 'Lifestyle', icon: 'fa-heart', value: 'lifestyle photography' },
+                    { label: 'Product photo', icon: 'fa-box-open', value: 'clean product photography' },
+                    { label: 'Cinematic', icon: 'fa-film', value: 'cinematic film still' },
                     { label: 'Watercolour', icon: 'fa-paint-brush', value: 'soft watercolour painting' },
                     { label: 'Pencil sketch', icon: 'fa-pencil-alt', value: 'detailed pencil sketch' },
-                    { label: 'Cinematic', icon: 'fa-film', value: 'cinematic film still' },
                     { label: 'Flat illustration', icon: 'fa-image', value: 'clean flat vector illustration' }
                 ]
             },
             {
+                key: 'M', name: 'Mood & Lighting', category: 'lighting', section: 'lighting-section',
+                hint: 'How it feels and how it is lit.',
+                tooltip: 'M, Mood & Lighting: how the image feels and how it is lit. Atmosphere, colour mood, light source, time of day and contrast.',
+                chips: [
+                    { label: 'Warm', icon: 'fa-sun', value: 'warm, inviting mood' },
+                    { label: 'Calm', icon: 'fa-leaf', value: 'calm, peaceful mood' },
+                    { label: 'Energetic', icon: 'fa-bolt', value: 'energetic, lively mood' },
+                    { label: 'Moody', icon: 'fa-adjust', value: 'moody, dramatic shadows' },
+                    { label: 'Golden morning', icon: 'fa-cloud-sun', value: 'golden morning light' },
+                    { label: 'Soft window light', icon: 'fa-border-all', value: 'soft window light' },
+                    { label: 'Overcast', icon: 'fa-cloud', value: 'soft overcast light' },
+                    { label: 'Sunset glow', icon: 'fa-cloud-sun', value: 'glowing orange sunset light' },
+                    { label: 'Neon night', icon: 'fa-moon', value: 'vivid neon lights at night' },
+                    { label: 'Studio light', icon: 'fa-lightbulb', value: 'even studio lighting' }
+                ]
+            },
+            {
+                key: 'P', name: 'Perspective & Framing', category: 'framing', section: 'framing-section',
+                hint: 'How the camera sees the scene.',
+                tooltip: 'P, Perspective & Framing: how the camera sees and arranges the scene. Shot size, angle, viewpoint and composition.',
+                chips: [
+                    { label: 'Close-up', icon: 'fa-search-plus', value: 'close-up shot' },
+                    { label: 'Medium shot', icon: 'fa-user', value: 'medium shot' },
+                    { label: 'Wide shot', icon: 'fa-expand', value: 'wide shot' },
+                    { label: 'Eye level', icon: 'fa-eye', value: 'eye-level angle' },
+                    { label: 'Low angle', icon: 'fa-angle-up', value: 'low angle looking up' },
+                    { label: 'High angle', icon: 'fa-angle-down', value: 'high angle looking down' },
+                    { label: "Bird's-eye", icon: 'fa-dove', value: "bird's-eye view from directly above" },
+                    { label: 'Over the shoulder', icon: 'fa-user-friends', value: 'over-the-shoulder shot' },
+                    { label: 'Centred', icon: 'fa-crosshairs', value: 'subject centred in frame' },
+                    { label: 'Off-centre', icon: 'fa-th', value: 'subject off-centre in frame' }
+                ]
+            },
+            {
                 key: 'X', name: 'eXclusions', category: 'exclusions', section: 'technical-section',
-                hint: 'What must not appear.',
-                tooltip: 'X, eXclusions: what must NOT appear. Pick as many as you need.',
+                hint: 'What should not appear.',
+                tooltip: 'X, eXclusions: what should NOT appear. Unwanted objects, visual defects, style mistakes or distractions.',
                 chips: [
                     { label: 'No text', icon: 'fa-ban', value: 'no text' },
                     { label: 'No watermark', icon: 'fa-ban', value: 'no watermark' },
-                    { label: 'No cartoon effects', icon: 'fa-ban', value: 'no cartoon effects' },
-                    { label: 'No extra fingers', icon: 'fa-ban', value: 'no extra fingers' },
                     { label: 'No blur', icon: 'fa-ban', value: 'no blur' },
-                    { label: 'No crowds', icon: 'fa-ban', value: 'no people in the background' }
+                    { label: 'No crowds', icon: 'fa-ban', value: 'no crowds' },
+                    { label: 'No cartoon effect', icon: 'fa-ban', value: 'no cartoon effect' },
+                    { label: 'No plastic skin', icon: 'fa-ban', value: 'no plastic-looking skin' },
+                    { label: 'No extra fingers', icon: 'fa-ban', value: 'no extra fingers' },
+                    { label: 'No distorted hands', icon: 'fa-ban', value: 'no distorted hands' },
+                    { label: 'No HDR look', icon: 'fa-ban', value: 'no HDR look' }
                 ]
             }
         ];
@@ -2126,15 +2145,19 @@
         function buildPromptParts() {
             const parts = [];
             const add = (key, text) => parts.push({ key, text });
-            const S = joinValues('S'), T = joinValues('T'), A = joinValues('A');
-            const M = joinValues('M'), P = joinValues('P');
+            const S = joinValues('S'), T = joinValues('T');
             if (S) add('S', S);
-            if (A) add('A', (S ? ' ' : '') + A);
-            if (T) add('T', (parts.length ? ', in ' : 'In ') + T);
-            if (parts.length) parts.push({ text: '. ' });
-            if (M) add('M', capitalise(M));
-            if (P) add('P', M ? ', ' + P : capitalise(P));
-            if (M || P) parts.push({ text: '. ' });
+            if (T) add('T', S ? ' ' + T : capitalise(T));
+            if (S || T) parts.push({ text: '. ' });
+            // Look and feel: Aesthetic, Mood, Perspective as one sentence
+            let first = true;
+            ['A', 'M', 'P'].forEach(key => {
+                const text = joinValues(key);
+                if (!text) return;
+                add(key, first ? capitalise(text) : ', ' + text);
+                first = false;
+            });
+            if (!first) parts.push({ text: '. ' });
             if (isFilled('X')) {
                 add('X', capitalise(picksFor('X').map(c => c.value).join(', ')));
                 parts.push({ text: '.' });

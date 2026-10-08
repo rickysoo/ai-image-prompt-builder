@@ -1,19 +1,20 @@
 // Vercel serverless function for OpenAI API calls
-// STAMPX page: keep every element (Subject, Tone & Lighting, Action, Mode & Framing,
-// Photo Style, eXclusions). The page sends only this flag, never its own instructions.
+// STAMPX page: keep every element (Subject, Task/Action, Aesthetic/Style, Mood & Lighting,
+// Perspective & Framing, eXclusions). The page sends only this flag, never its own instructions.
 function stampxMessages(components) {
   return [{
     role: 'system',
     content: `You turn STAMPX components into one clear image prompt that works in ChatGPT, Gemini, DALL-E and Midjourney.
 
-STAMPX: S = Subject, T = Tone & Lighting, A = Action, M = Mode & Framing (camera distance and angle), P = Photo Style, X = eXclusions (things that must NOT appear).
+STAMPX: S = Subject (who or what is in the image), T = Task / Action (what is happening), A = Aesthetic / Style (what kind of image it is), M = Mood & Lighting (how it feels and how it is lit), P = Perspective & Framing (shot size, camera angle, composition), X = eXclusions (things that must NOT appear).
 
 Rules:
 1. ALWAYS start with "Generate an image:"
 2. Include EVERY component you are given. Never drop or replace one.
-3. Write one natural, flowing description in simple everyday English.
+3. Write one natural, flowing description in simple everyday English, in STAMPX order: subject and action, then style, mood and lighting, then perspective and framing.
 4. Put all exclusions together in one final sentence, e.g. "No text or watermark."
-5. Keep it under 350 characters.
+5. For realistic photos, prefer natural, candid and unretouched wording. Never add "perfect", "ultra-detailed" or "HDR".
+6. Keep it under 350 characters.
 
 Return only the prompt, no explanations.`
   }, {
