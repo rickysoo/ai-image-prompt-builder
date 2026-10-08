@@ -1582,6 +1582,14 @@
             }
         }
 
+        /* Shorter screens: slimmer chips leave room for the footer */
+        @media (min-width: 769px) and (max-height: 819px) {
+            .stampx-grid .component-item {
+                padding-top: 0.28rem;
+                padding-bottom: 0.28rem;
+            }
+        }
+
         /* Taller screens: bigger chips and prompt area so the boxes look full, not padded.
            Shorter screens keep the compact sizes so nothing needs scrolling. */
         @media (min-width: 769px) and (min-height: 820px) {
@@ -1823,15 +1831,13 @@
             .burst { display: none; }
         }
 
-        /* Credit for the STAMPX framework, in the header's empty top-left corner */
+        /* Credit for the STAMPX framework */
         .credit {
-            position: absolute;
-            top: 0.6rem;
-            left: 0.9rem;
-            margin: 0;
-            font-size: 0.78rem;
+            margin: 0.4rem 0 0;
+            text-align: center;
+            font-size: 0.75rem;
+            line-height: 1.2;
             color: rgba(255, 255, 255, 0.7);
-            z-index: 5;
         }
 
         .credit strong {
@@ -1840,12 +1846,6 @@
         }
 
         @media (max-width: 768px) {
-            .credit {
-                position: static;
-                text-align: center;
-                margin-bottom: 0.4rem;
-            }
-
             .stampx-grid {
                 grid-template-areas:
                     "subjects"
@@ -1870,8 +1870,6 @@
 
     <div class="app-container">
         <!-- Header -->
-        <p class="credit">Concept by <strong>Koh Li Hong</strong></p>
-
         <div class="header stampx-header">
             <h1 class="title">
                 <div class="app-logo"></div>
@@ -1910,6 +1908,8 @@
             </div>
 
         </div>
+
+        <footer class="credit">Concept by <strong>Koh Li Hong</strong></footer>
     </div>
 
     <script>
