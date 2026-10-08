@@ -1843,9 +1843,15 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .credit a {
+            display: inline-flex;
+        }
+
         .credit img {
-            height: 18px;
+            height: 24px;
             width: auto;
+            /* Taller than the text; overlap the gaps so the footer doesn't grow */
+            margin: -5px 0;
         }
 
         .credit strong {
@@ -1918,7 +1924,9 @@
         </div>
 
         <footer class="credit">
-            <img src="https://aicoach.my/AIC-Logo-202510.webp" alt="AI Coach" onerror="this.remove()">
+            <a href="https://aicoach.my/" target="_blank" rel="noopener" aria-label="AICoach.my (opens in a new tab)">
+                <img src="https://aicoach.my/AIC-Logo-202510.webp" alt="AI Coach" onerror="this.parentElement.remove()">
+            </a>
             <span>Concept by <strong>Coach Koh Li Hong</strong></span>
         </footer>
     </div>
