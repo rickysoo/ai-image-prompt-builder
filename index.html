@@ -1834,10 +1834,18 @@
         /* Credit for the STAMPX framework */
         .credit {
             margin: 0.4rem 0 0;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
             font-size: 0.75rem;
             line-height: 1.2;
             color: rgba(255, 255, 255, 0.7);
+        }
+
+        .credit img {
+            height: 18px;
+            width: auto;
         }
 
         .credit strong {
@@ -1909,7 +1917,10 @@
 
         </div>
 
-        <footer class="credit">Concept by <strong>Koh Li Hong</strong></footer>
+        <footer class="credit">
+            <img src="https://aicoach.my/AIC-Logo-202510.webp" alt="AI Coach" onerror="this.remove()">
+            <span>Concept by <strong>Coach Koh Li Hong</strong></span>
+        </footer>
     </div>
 
     <script>
